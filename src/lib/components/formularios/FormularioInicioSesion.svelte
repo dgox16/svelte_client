@@ -8,16 +8,25 @@
     } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
     import {
-        RegistroUsuarioEsquema,
+        InicioSesionEsquema,
         type FormSchema,
-    } from "$lib/esquemas/registroEsquemas";
+    } from "$lib/esquemas/inicioSesionEsquemas";
     import * as Alert from "$lib/components/ui/alert/index.js";
     import ExclamationTriangle from "svelte-radix/ExclamationTriangle.svelte";
+    import { goto } from "$app/navigation";
 
     export let datos: SuperValidated<Infer<FormSchema>>;
 
     const form = superForm(datos, {
-        validators: zodClient(RegistroUsuarioEsquema),
+        validators: zodClient(InicioSesionEsquema),
+        invalidateAll: false, // this is key for avoid calling the load function on server side
+        resetForm: false, // I don't want to lose the data after the form is sent
+        onResult({ result }) {
+            if (result.type === "success") {
+                sessionStorage.setItem("toastMessage", "Hello world");
+                goto("/perfil-usuario");
+            }
+        },
     });
 
     const { form: formDatos, enhance, message } = form;
@@ -35,16 +44,6 @@
             <Form.Label>Usuario</Form.Label>
             <Input {...attrs} bind:value={$formDatos.usuario} />
         </Form.Control>
-        <Form.Description
-            >Este es el usuario que se usará para todas las transacciones.</Form.Description
-        >
-        <Form.FieldErrors />
-    </Form.Field>
-    <Form.Field {form} name="email" class="py-2">
-        <Form.Control let:attrs>
-            <Form.Label>Email</Form.Label>
-            <Input {...attrs} bind:value={$formDatos.email} />
-        </Form.Control>
         <Form.FieldErrors />
     </Form.Field>
     <Form.Field {form} name="contraseña" class="py-2">
@@ -58,17 +57,6 @@
         </Form.Control>
         <Form.FieldErrors />
     </Form.Field>
-    <Form.Field {form} name="confirmarContraseña" class="py-2">
-        <Form.Control let:attrs>
-            <Form.Label>Confirmar contraseña</Form.Label>
-            <Input
-                type="password"
-                {...attrs}
-                bind:value={$formDatos.confirmarContraseña}
-            />
-        </Form.Control>
-        <Form.FieldErrors />
-    </Form.Field>
 
     {#if $message}
         <Alert.Root variant="destructive" class="mb-1">
@@ -78,5 +66,5 @@
         </Alert.Root>
     {/if}
 
-    <Form.Button class="w-full font-semibold mt-2">CREAR CUENTA</Form.Button>
+    <Form.Button class="w-full font-semibold mt-2">INICIAR SESIÓN</Form.Button>
 </form>
