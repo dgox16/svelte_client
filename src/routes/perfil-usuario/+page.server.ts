@@ -1,4 +1,3 @@
-import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types.js";
 
 export const load: PageServerLoad = async ({ fetch }) => {
@@ -7,11 +6,6 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		credentials: "include",
 	});
 
-	if (!response.ok) {
-		console.info("Fallo");
-		redirect(307, "/iniciar-sesion");
-	} else {
-		const result = await response.json();
-		return result;
-	}
+	const result = await response.json();
+	return result;
 };

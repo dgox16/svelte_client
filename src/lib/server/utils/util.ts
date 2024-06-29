@@ -29,3 +29,9 @@ export function colocarRefreshTokenCookie(
 		expires: new Date(exp * 1000),
 	});
 }
+
+export function removeAuth(cookies: Cookies, locals: App.Locals): void {
+	cookies.delete("accessToken", { path: "/" });
+	cookies.delete("refreshToken", { path: "/" });
+	locals.userId = null;
+}
