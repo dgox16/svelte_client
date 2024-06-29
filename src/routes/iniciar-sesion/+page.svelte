@@ -12,7 +12,7 @@
 <Navbar />
 
 <main class="flex justify-center items-center min-h-screen">
-    <Card.Root class="px-5">
+    <Card.Root>
         <Card.Header>
             <Card.Title class="text-3xl">Inicia sesión</Card.Title>
             <Card.Description

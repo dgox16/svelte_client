@@ -7,7 +7,7 @@ export const InicioSesionEsquema = z.object({
 		.max(50),
 	contraseña: z
 		.string()
-		.min(6, { message: "La contraseña debe tener al menos 6 caracteres" }),
+		.min(6, { message: "Contraseña debe tener mas de 6 caracteres" }),
 });
 
 export type FormSchema = typeof InicioSesionEsquema;

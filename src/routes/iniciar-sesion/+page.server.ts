@@ -1,4 +1,5 @@
 import { InicioSesionEsquema } from "$lib/esquemas/inicioSesionEsquemas.js";
+import type { AuthTokens } from "$lib/modelos/auth/auth-tokens.js";
 import type { Actions, PageServerLoad } from "./$types.js";
 import { fail, message, setError, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
@@ -36,8 +37,16 @@ export const actions: Actions = {
 				setError(form, "general", error.mensaje);
 				return message(form, error.mensaje);
 			} else {
-				const result = await response.json();
-				cookies.set("token", result.datos, {
+				const resultado = await response.json();
+				const { access_token, refresh_token } = resultado.datos as AuthTokens;
+
+				cookies.set("accessToken", access_token, {
+					path: "/",
+					sameSite: "strict",
+					httpOnly: true,
+				});
+
+				cookies.set("refreshToken", refresh_token, {
 					path: "/",
 					sameSite: "strict",
 					httpOnly: true,
@@ -45,7 +54,7 @@ export const actions: Actions = {
 
 				return {
 					form,
-					result,
+					resultado,
 				};
 			}
 		} catch (error: unknown) {
