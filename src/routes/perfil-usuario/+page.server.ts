@@ -1,6 +1,5 @@
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types.js";
-import { toast } from "svelte-sonner";
 
 export const load: PageServerLoad = async ({ fetch }) => {
 	const response = await fetch("http://localhost:8000/api/usuarios/actual", {
