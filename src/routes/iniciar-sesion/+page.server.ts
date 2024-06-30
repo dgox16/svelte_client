@@ -4,11 +4,13 @@ import {
 	colocarAccessTokenCookie,
 	colocarRefreshTokenCookie,
 } from "$lib/server/utils/util.js";
+import { redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types.js";
 import { fail, message, setError, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ locals }) => {
+	if (locals.userId) redirect(302, "/");
 	return {
 		form: await superValidate(zod(InicioSesionEsquema)),
 	};
