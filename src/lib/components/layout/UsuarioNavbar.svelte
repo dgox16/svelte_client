@@ -1,7 +1,7 @@
 <script lang="ts">
     import Button from "$lib/components/ui/button/button.svelte";
     import { toggleMode } from "mode-watcher";
-    import { Exit, Moon, Sun } from "svelte-radix";
+    import { Exit, Moon, Person, Sun } from "svelte-radix";
 </script>
 
 <header
@@ -10,7 +10,7 @@
     <nav
         class="w-[1400px] flex h-16 flex-row justify-between items-center mx-7 my-auto"
     >
-        <div><span class="font-bold">SICAP</span></div>
+        <div><a href="/" class="font-bold">SICAP</a></div>
         <div class="flex flex-row">
             <Button on:click={toggleMode} variant="outline" size="icon">
                 <Sun
@@ -21,6 +21,13 @@
                 />
                 <span class="sr-only">Toggle theme</span>
             </Button>
+            <Button
+                class="font-bold ml-3"
+                variant="outline"
+                size="icon"
+                href="/perfil-usuario"
+                ><Person class="size-5 text-blue-500" /></Button
+            >
             <Button
                 class="font-bold ml-3"
                 variant="outline"
