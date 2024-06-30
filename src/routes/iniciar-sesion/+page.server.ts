@@ -48,10 +48,6 @@ export const actions: Actions = {
 
 		colocarAccessTokenCookie(cookies, access_token);
 		colocarRefreshTokenCookie(cookies, refresh_token);
-
-		return {
-			form,
-			resultado,
-		};
+		redirect(302, "/perfil-usuario");
 	},
 };
