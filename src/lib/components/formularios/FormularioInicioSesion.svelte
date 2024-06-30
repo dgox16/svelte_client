@@ -13,20 +13,11 @@
     } from "$lib/esquemas/inicioSesionEsquemas";
     import * as Alert from "$lib/components/ui/alert/index.js";
     import ExclamationTriangle from "svelte-radix/ExclamationTriangle.svelte";
-    import { goto } from "$app/navigation";
 
     export let datos: SuperValidated<Infer<FormSchema>>;
 
     const form = superForm(datos, {
         validators: zodClient(InicioSesionEsquema),
-        invalidateAll: false, // this is key for avoid calling the load function on server side
-        resetForm: false, // I don't want to lose the data after the form is sent
-        onResult({ result }) {
-            if (result.type === "success") {
-                sessionStorage.setItem("toastMessage", "Hello world");
-                goto("/perfil-usuario");
-            }
-        },
     });
 
     const { form: formDatos, enhance, message } = form;

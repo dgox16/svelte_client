@@ -1,17 +1,7 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
-    import { toast, Toaster } from "svelte-sonner";
-    import { onMount } from "svelte";
 
     import { usuarioStore } from "$lib/stores/usuario";
-
-    onMount(() => {
-        const toastMessage = sessionStorage.getItem("toastMessage");
-        if (toastMessage) {
-            toast(toastMessage);
-            sessionStorage.removeItem("toastMessage"); // Elimina el mensaje para evitar que se muestre nuevamente
-        }
-    });
 </script>
 
 <main class="flex justify-center items-center min-h-screen">
@@ -22,6 +12,4 @@
         </Card.Header>
         <Card.Content>{$usuarioStore?.createdAt}</Card.Content>
     </Card.Root>
-
-    <Toaster />
 </main>
