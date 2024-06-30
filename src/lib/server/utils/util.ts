@@ -30,7 +30,10 @@ export function colocarRefreshTokenCookie(
 	});
 }
 
-export function removeAuth(cookies: Cookies, locals: App.Locals): void {
+export function removerAutorizacion(
+	cookies: Cookies,
+	locals: App.Locals,
+): void {
 	cookies.delete("accessToken", { path: "/" });
 	cookies.delete("refreshToken", { path: "/" });
 	locals.userId = null;

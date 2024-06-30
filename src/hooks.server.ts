@@ -4,7 +4,7 @@ import type { JwtPayload } from "$lib/modelos/auth/jwt-payload";
 import {
 	colocarAccessTokenCookie,
 	colocarRefreshTokenCookie,
-	removeAuth,
+	removerAutorizacion,
 } from "$lib/server/utils/util";
 import {
 	redirect,
@@ -17,12 +17,12 @@ import jwt from "jsonwebtoken";
 const rutasProtegidas = ["/perfil-usuario"];
 
 export const handle = (async ({ event, resolve }) => {
-	await tryToGetSignedInUser(event);
+	await obtenerAutorizacion(event);
 	revisarRutasProtegidas(event.url, event.cookies);
 	return await resolve(event);
 }) satisfies Handle;
 
-async function tryToGetSignedInUser(event: RequestEvent): Promise<void> {
+async function obtenerAutorizacion(event: RequestEvent): Promise<void> {
 	try {
 		const accessToken = event.cookies.get("accessToken") ?? "";
 		const { sub } = jwt.verify(accessToken, JWT_SECRETO) as JwtPayload;
@@ -49,7 +49,7 @@ async function refrescar_token(event: RequestEvent): Promise<void> {
 		const resultado = await response.json();
 
 		if (!resultado.estado) {
-			removeAuth(event.cookies, event.locals);
+			removerAutorizacion(event.cookies, event.locals);
 		} else {
 			const { access_token, refresh_token } = resultado.datos as AuthTokens;
 			colocarAccessTokenCookie(event.cookies, access_token);
