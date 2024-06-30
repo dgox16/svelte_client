@@ -1,15 +1,12 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
     import type { PageData } from "./$types.js";
-    import Navbar from "$lib/components/layout/Navbar.svelte";
     import FormularioInicioSesion from "$lib/components/formularios/FormularioInicioSesion.svelte";
     import { Toaster } from "$lib/components/ui/sonner";
     import Button from "$lib/components/ui/button/button.svelte";
 
     export let data: PageData;
 </script>
-
-<Navbar />
 
 <main class="flex justify-center items-center min-h-screen">
     <Card.Root>

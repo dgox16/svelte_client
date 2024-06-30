@@ -2,11 +2,8 @@
     import * as Card from "$lib/components/ui/card/index.js";
     import type { PageData } from "./$types.js";
     import FormularioRegistro from "$lib/components/formularios/FormularioRegistro.svelte";
-    import Navbar from "$lib/components/layout/Navbar.svelte";
     export let data: PageData;
 </script>
-
-<Navbar />
 
 <main class="flex justify-center items-center min-h-screen">
     <Card.Root class="px-5">

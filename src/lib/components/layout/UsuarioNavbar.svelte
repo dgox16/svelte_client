@@ -21,8 +21,10 @@
                 />
                 <span class="sr-only">Toggle theme</span>
             </Button>
-            <a href="/iniciar-sesion" class="ml-3">
-                <Button class="font-bold">Iniciar Sesión</Button>
+            <a href="/cerrar-sesion">
+                <Button class="font-bold ml-3" variant="destructive"
+                    >Cerrar Sesión</Button
+                >
             </a>
         </div>
     </nav>
