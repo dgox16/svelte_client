@@ -35,27 +35,31 @@ async function obtenerAutorizacion(event: RequestEvent): Promise<void> {
 async function refrescar_token(event: RequestEvent): Promise<void> {
 	const refreshToken = event.cookies.get("refreshToken");
 	if (refreshToken) {
-		const response = await event.fetch(
-			"http://localhost:8000/api/auth/refrescar_token",
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
+		try {
+			const response = await event.fetch(
+				"http://localhost:8000/api/auth/refrescar_token",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ refresh_token: refreshToken }),
 				},
-				body: JSON.stringify({ refresh_token: refreshToken }),
-			},
-		);
+			);
 
-		const resultado = await response.json();
+			const resultado = await response.json();
 
-		if (!resultado.estado) {
+			if (!resultado.estado) {
+				removerAutorizacion(event.cookies, event.locals);
+			} else {
+				const { access_token, refresh_token } = resultado.datos as AuthTokens;
+				colocarAccessTokenCookie(event.cookies, access_token);
+				colocarRefreshTokenCookie(event.cookies, refresh_token);
+				const { sub } = jwt.decode(access_token) as JwtPayload;
+				event.locals.userId = sub;
+			}
+		} catch {
 			removerAutorizacion(event.cookies, event.locals);
-		} else {
-			const { access_token, refresh_token } = resultado.datos as AuthTokens;
-			colocarAccessTokenCookie(event.cookies, access_token);
-			colocarRefreshTokenCookie(event.cookies, refresh_token);
-			const { sub } = jwt.decode(access_token) as JwtPayload;
-			event.locals.userId = sub;
 		}
 	}
 }
