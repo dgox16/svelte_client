@@ -10,7 +10,7 @@
     import {
         RegistroUsuarioEsquema,
         type FormSchema,
-    } from "$lib/esquemas/registroEsquemas";
+    } from "$lib/esquemas/auth/registroEsquemas";
     import * as Alert from "$lib/components/ui/alert/index.js";
     import ExclamationTriangle from "svelte-radix/ExclamationTriangle.svelte";
 

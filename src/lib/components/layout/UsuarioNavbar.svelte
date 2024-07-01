@@ -1,7 +1,7 @@
 <script lang="ts">
     import Button from "$lib/components/ui/button/button.svelte";
     import { toggleMode } from "mode-watcher";
-    import { Moon, Person, Sun } from "svelte-radix";
+    import { Exit, Moon, Person, Sun } from "svelte-radix";
 </script>
 
 <header
@@ -27,6 +27,14 @@
                 size="icon"
                 href="/auth/perfil-usuario"
                 ><Person class="size-5 text-blue-500" /></Button
+            >
+
+            <Button
+                class="font-bold ml-3"
+                variant="outline"
+                size="icon"
+                href="/auth/cerrar-sesion"
+                ><Exit class="size-5 text-blue-500" /></Button
             >
         </div>
     </nav>

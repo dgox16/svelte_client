@@ -21,7 +21,7 @@
         </Card.Content>
         <Card.Footer class="flex justify-center">
             <Button
-                href="/registro-usuario"
+                href="/auth/registro-usuario"
                 class="w-full uppercase italic text-xs"
                 variant="link"
                 size="sm"

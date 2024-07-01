@@ -10,7 +10,7 @@
     import {
         InicioSesionEsquema,
         type FormSchema,
-    } from "$lib/esquemas/inicioSesionEsquemas";
+    } from "$lib/esquemas/auth/inicioSesionEsquemas";
     import * as Alert from "$lib/components/ui/alert/index.js";
     import ExclamationTriangle from "svelte-radix/ExclamationTriangle.svelte";
 

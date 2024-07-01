@@ -1,4 +1,4 @@
-import { InicioSesionEsquema } from "$lib/esquemas/inicioSesionEsquemas.js";
+import { InicioSesionEsquema } from "$lib/esquemas/auth/inicioSesionEsquemas.js";
 import type { AuthTokens } from "$lib/modelos/auth/auth-tokens.js";
 import {
 	colocarAccessTokenCookie,

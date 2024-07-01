@@ -8,7 +8,7 @@
     class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto"
 >
     <nav
-        class="w-[1400px] flex h-16 flex-row justify-between items-center mx-7 my-auto"
+        class="w-[1500px] flex h-16 flex-row justify-between items-center mx-7 my-auto"
     >
         <div><span class="font-bold">SICAP</span></div>
         <div class="flex flex-row">
@@ -21,7 +21,7 @@
                 />
                 <span class="sr-only">Toggle theme</span>
             </Button>
-            <Button href="/iniciar-sesion" class="font-bold ml-3"
+            <Button href="/auth/iniciar-sesion" class="font-bold ml-3"
                 >Iniciar Sesión</Button
             >
         </div>
