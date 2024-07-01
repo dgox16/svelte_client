@@ -1,7 +1,7 @@
 <script lang="ts">
     import Button from "$lib/components/ui/button/button.svelte";
     import { toggleMode } from "mode-watcher";
-    import { Exit, Moon, Person, Sun } from "svelte-radix";
+    import { Moon, Person, Sun } from "svelte-radix";
     import Separator from "../ui/separator/separator.svelte";
 </script>
 
@@ -24,7 +24,7 @@
                 class="font-bold ml-3"
                 variant="outline"
                 size="icon"
-                href="/perfil-usuario"
+                href="/auth/perfil-usuario"
                 ><Person class="size-5 text-blue-500" /></Button
             >
         </div>

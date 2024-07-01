@@ -4,5 +4,5 @@ import type { RequestHandler } from "./$types";
 
 export const GET = (async ({ locals, cookies }) => {
 	removerAutorizacion(cookies, locals);
-	redirect(302, "/iniciar-sesion");
+	redirect(302, "/auth/iniciar-sesion");
 }) satisfies RequestHandler;

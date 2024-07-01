@@ -8,6 +8,7 @@
     import UsuarioNavbar from "$lib/components/layout/UsuarioNavbar.svelte";
     import InvitadoNavbar from "$lib/components/layout/InvitadoNavbar.svelte";
     import Sidebar from "$lib/components/layout/Sidebar.svelte";
+    import MainContent from "$lib/components/layout/MainContent.svelte";
 
     export let data: LayoutData;
     beforeUpdate(() => {
@@ -23,9 +24,11 @@
     <Loading />
 {:else}
     <UsuarioNavbar />
-    <main class="mt-3 grid grid-cols-8">
+    <main class="mt-3 grid grid-cols-12">
         <Sidebar />
-        <slot />
+        <MainContent>
+            <slot />
+        </MainContent>
     </main>
 {/if}
 

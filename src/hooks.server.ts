@@ -14,7 +14,7 @@ import {
 } from "@sveltejs/kit";
 import jwt from "jsonwebtoken";
 
-const rutasProtegidas = ["/perfil-usuario"];
+const rutasProtegidas = ["/auth/perfil-usuario"];
 
 export const handle = (async ({ event, resolve }) => {
 	await obtenerAutorizacion(event);
@@ -67,6 +67,6 @@ async function refrescar_token(event: RequestEvent): Promise<void> {
 function revisarRutasProtegidas(url: URL, cookies: Cookies): void {
 	if (rutasProtegidas.some((route) => url.pathname.startsWith(route))) {
 		const accessToken = cookies.get("accessToken");
-		if (!accessToken) redirect(302, "/iniciar-sesion");
+		if (!accessToken) redirect(302, "/auth/iniciar-sesion");
 	}
 }
