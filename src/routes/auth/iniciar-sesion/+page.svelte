@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
     import type { PageData } from "./$types.js";
-    import FormularioInicioSesion from "$lib/components/formularios/FormularioInicioSesion.svelte";
+    import FormularioInicioSesion from "$lib/formularios/auth/FormularioInicioSesion.svelte";
     import { Toaster } from "$lib/components/ui/sonner";
     import Button from "$lib/components/ui/button/button.svelte";
 

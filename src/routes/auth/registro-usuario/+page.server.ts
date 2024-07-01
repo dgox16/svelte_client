@@ -1,4 +1,4 @@
-import { RegistroUsuarioEsquema } from "$lib/esquemas/auth/registroEsquemas.js";
+import { RegistroUsuarioEsquema } from "$lib/esquemas/auth/AutorizacionEsquemas";
 import { redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types.js";
 import { fail, message, setError, superValidate } from "sveltekit-superforms";

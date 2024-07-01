@@ -8,16 +8,16 @@
     } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
     import {
-        InicioSesionEsquema,
-        type FormSchema,
-    } from "$lib/esquemas/auth/inicioSesionEsquemas";
+        RegistroUsuarioEsquema,
+        type RegistroUsuarioFormulario,
+    } from "$lib/esquemas/auth/AutorizacionEsquemas";
     import * as Alert from "$lib/components/ui/alert/index.js";
     import ExclamationTriangle from "svelte-radix/ExclamationTriangle.svelte";
 
-    export let datos: SuperValidated<Infer<FormSchema>>;
+    export let datos: SuperValidated<Infer<RegistroUsuarioFormulario>>;
 
     const form = superForm(datos, {
-        validators: zodClient(InicioSesionEsquema),
+        validators: zodClient(RegistroUsuarioEsquema),
     });
 
     const { form: formDatos, enhance, message } = form;
@@ -35,6 +35,16 @@
             <Form.Label>Usuario</Form.Label>
             <Input {...attrs} bind:value={$formDatos.usuario} />
         </Form.Control>
+        <Form.Description
+            >Este es el usuario que se usará para todas las transacciones.</Form.Description
+        >
+        <Form.FieldErrors />
+    </Form.Field>
+    <Form.Field {form} name="email" class="py-2">
+        <Form.Control let:attrs>
+            <Form.Label>Email</Form.Label>
+            <Input {...attrs} bind:value={$formDatos.email} />
+        </Form.Control>
         <Form.FieldErrors />
     </Form.Field>
     <Form.Field {form} name="contraseña" class="py-2">
@@ -48,6 +58,17 @@
         </Form.Control>
         <Form.FieldErrors />
     </Form.Field>
+    <Form.Field {form} name="confirmarContraseña" class="py-2">
+        <Form.Control let:attrs>
+            <Form.Label>Confirmar contraseña</Form.Label>
+            <Input
+                type="password"
+                {...attrs}
+                bind:value={$formDatos.confirmarContraseña}
+            />
+        </Form.Control>
+        <Form.FieldErrors />
+    </Form.Field>
 
     {#if $message}
         <Alert.Root variant="destructive" class="mb-1">
@@ -57,5 +78,5 @@
         </Alert.Root>
     {/if}
 
-    <Form.Button class="w-full font-semibold mt-2">INICIAR SESIÓN</Form.Button>
+    <Form.Button class="w-full font-semibold mt-2">CREAR CUENTA</Form.Button>
 </form>

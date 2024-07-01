@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
     import type { PageData } from "./$types.js";
-    import FormularioRegistro from "$lib/components/formularios/FormularioRegistro.svelte";
+    import FormularioRegistro from "$lib/formularios/auth/FormularioRegistro.svelte";
     export let data: PageData;
 </script>
 
