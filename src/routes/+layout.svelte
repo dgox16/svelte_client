@@ -24,12 +24,14 @@
     <Loading />
 {:else}
     <UsuarioNavbar />
-    <main class="mt-3 grid grid-cols-12">
-        <Sidebar />
-        <MainContent>
-            <slot />
-        </MainContent>
-    </main>
+    <div class="flex justify-center">
+        <div class="w-[1500px]">
+            <Sidebar />
+            <MainContent>
+                <slot />
+            </MainContent>
+        </div>
+    </div>
 {/if}
 
 <style></style>
