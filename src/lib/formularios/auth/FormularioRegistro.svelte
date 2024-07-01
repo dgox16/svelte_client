@@ -9,12 +9,12 @@
     import { zodClient } from "sveltekit-superforms/adapters";
     import {
         RegistroUsuarioEsquema,
-        type RegistroUsuarioFormulario,
-    } from "$lib/esquemas/auth/AutorizacionEsquemas";
+        type RegistroUsuarioFormType,
+    } from "$lib/esquemas/auth/autorizacionEsquemas";
     import * as Alert from "$lib/components/ui/alert/index.js";
     import ExclamationTriangle from "svelte-radix/ExclamationTriangle.svelte";
 
-    export let datos: SuperValidated<Infer<RegistroUsuarioFormulario>>;
+    export let datos: SuperValidated<Infer<RegistroUsuarioFormType>>;
 
     const form = superForm(datos, {
         validators: zodClient(RegistroUsuarioEsquema),

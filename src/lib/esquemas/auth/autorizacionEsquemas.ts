@@ -24,5 +24,5 @@ export const RegistroUsuarioEsquema = z.object({
 		.min(6, { message: "La contraseña debe tener al menos 6 caracteres" }),
 });
 
-export type InicioSesionFormulario = typeof InicioSesionEsquema;
-export type RegistroUsuarioFormulario = typeof RegistroUsuarioEsquema;
+export type InicioSesionFormType = typeof InicioSesionEsquema;
+export type RegistroUsuarioFormType = typeof RegistroUsuarioEsquema;
