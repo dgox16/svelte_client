@@ -5,7 +5,7 @@
 </script>
 
 <aside
-    class="fixed top-0 bottom-0 h-[calc(100vh-3.5rem)] mt-16 flex flex-col justify-between w-60"
+    class="fixed top-0 bottom-0 h-[calc(100vh-3.5rem)] mt-[4.5rem] flex flex-col justify-between w-60"
 >
     <ScrollArea class="">
         <div class="space-y-4 py-4">
