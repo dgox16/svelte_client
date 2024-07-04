@@ -1,6 +1,6 @@
 <script lang="ts">
+    import MainTitle from "$lib/components/layout/MainTitle.svelte";
     import { usuarioStore } from "$lib/stores/usuario";
 </script>
 
-<h1 class="text-3xl font-semibold">Datos del usuario</h1>
-<h2>{$usuarioStore?.usuario}</h2>
+<MainTitle titulo="Datos del usuario" subtitulo={$usuarioStore.usuario} />

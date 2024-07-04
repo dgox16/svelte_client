@@ -7,17 +7,16 @@ import { zod } from "sveltekit-superforms/adapters";
 export const load: PageServerLoad = async ({ locals, fetch }) => {
 	if (!locals.userId) redirect(302, "/iniciar-sesion");
 
-	const respuesta = await fetch("http://localhost:8000/api/sucursal/buscar", {
+	const respuesta = await fetch("http://localhost:8000/api/poliza/buscar", {
 		method: "GET",
 	});
 
 	const resultado = await respuesta.json();
 
-	let sucursales = resultado.datos;
+	let polizas = resultado.datos;
 
 	return {
-		form: await superValidate(zod(AgregarPolizaEsquema)),
-		sucursales,
+		polizas,
 	};
 };
 
@@ -45,6 +44,8 @@ export const actions: Actions = {
 			return message(form, error.mensaje);
 		}
 
-		redirect(302, "/polizas/ver-todas");
+		//const resultado = await response.json();
+		// redirect(302, "/auth/perfil-usuario");
+		return { form };
 	},
 };

@@ -22,7 +22,11 @@
                         <PlusCircled class="size-4 mr-2" />
                         Agregar nueva poliza
                     </Button>
-                    <Button variant="ghost" class="w-full justify-start">
+                    <Button
+                        variant="ghost"
+                        class="w-full justify-start"
+                        href="/polizas/ver-todas"
+                    >
                         <ListBullet class="size-4 mr-2" />
                         Ver polizas
                     </Button>
