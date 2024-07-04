@@ -11,7 +11,7 @@
         <div class="space-y-4 py-4">
             <div class=" py-2">
                 <h2 class="mb-2 text-lg font-semibold tracking-tight">
-                    Poliza
+                    Polizas
                 </h2>
                 <div class="space-y-1">
                     <Button

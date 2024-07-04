@@ -25,7 +25,7 @@
 {:else}
     <UsuarioNavbar />
     <div class="flex justify-center">
-        <div class="w-[1500px]">
+        <div class="w-[1500px] mx-7">
             <Sidebar />
             <MainContent>
                 <slot />
