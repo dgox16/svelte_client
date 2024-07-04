@@ -32,9 +32,10 @@
             <Button
                 class="font-bold ml-3"
                 variant="outline"
+                rel="external"
                 size="icon"
                 href="/auth/cerrar-sesion"
-                ><Exit class="size-5 text-blue-500" /></Button
+                ><Exit class="size-5 text-rose-500" /></Button
             >
         </div>
     </nav>
