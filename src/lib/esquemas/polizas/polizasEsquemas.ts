@@ -51,13 +51,11 @@ export const AgregarPolizaEsquema = z.object({
 		.enum(Object.keys(fuentesPoliza) as [FuentePoliza, ...FuentePoliza[]])
 		.default("Operacion"),
 
-	poliza_egreso: z
-		.object({
-			beneficiario: z.string(),
-			banco: z.number(),
-			cheque: z.string(),
-		})
-		.optional(),
+	poliza_egreso: z.object({
+		beneficiario: z.string().min(1).default("test"),
+		banco: z.number().default(1),
+		cheque: z.string().min(1).default("test"),
+	}),
 });
 
 export type AgregarPolizaFormType = typeof AgregarPolizaEsquema;

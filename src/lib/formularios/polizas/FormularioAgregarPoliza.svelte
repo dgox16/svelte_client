@@ -1,4 +1,5 @@
 <script lang="ts">
+    import * as Card from "$lib/components/ui/card/index.js";
     import * as Form from "$lib/components/ui/form";
     import SuperDebug, {
         type SuperValidated,
@@ -31,6 +32,11 @@
         encargado: 1;
     }> = datos.sucursales;
 
+    let bancos: Array<{
+        id_banco: number;
+        nombre: string;
+    }> = datos.bancos;
+
     const form = superForm(formD, {
         validators: zodClient(AgregarPolizaEsquema),
         dataType: "json",
@@ -62,11 +68,23 @@
           }
         : undefined;
 
+    $: bancoSeleccionado = $formDatos.poliza_egreso?.banco
+        ? {
+              label: bancos.find(
+                  (sucursal) =>
+                      sucursal.id_banco === $formDatos.poliza_egreso?.banco,
+              )?.nombre,
+              value: $formDatos.poliza_egreso?.banco,
+          }
+        : undefined;
+
     $: if ($message) {
         setTimeout(() => {
             message.set("");
         }, 4000);
     }
+
+    let mostrarPolizaEgreso = false;
 </script>
 
 <form method="POST" use:enhance>
@@ -78,6 +96,17 @@
                     selected={tipoSeleccionado}
                     onSelectedChange={(v) => {
                         v && ($formDatos.tipo = v.value);
+                        if (v?.value === "Egreso") {
+                            mostrarPolizaEgreso = true;
+                            $formDatos.poliza_egreso.beneficiario = "";
+                            $formDatos.poliza_egreso.banco = 1;
+                            $formDatos.poliza_egreso.cheque = "";
+                        } else {
+                            mostrarPolizaEgreso = false;
+                            $formDatos.poliza_egreso.beneficiario = "test";
+                            $formDatos.poliza_egreso.banco = 1;
+                            $formDatos.poliza_egreso.cheque = "test";
+                        }
                     }}
                 >
                     <Select.Trigger {...attrs}>
@@ -188,6 +217,69 @@
             <Form.FieldErrors />
         </Form.Field>
     </div>
+
+    {#if mostrarPolizaEgreso}
+        <Card.Root>
+            <Card.Header>
+                <Card.Title class="text-2xl"
+                    >Datos de poliza de egreso</Card.Title
+                >
+            </Card.Header>
+            <Card.Content>
+                <div class="grid grid-cols-3 gap-x-10 gap-y-5">
+                    <Form.Field {form} name="poliza_egreso.beneficiario">
+                        <Form.Control let:attrs>
+                            <Form.Label>Beneficiario</Form.Label>
+                            <Input
+                                {...attrs}
+                                bind:value={$formDatos.poliza_egreso
+                                    .beneficiario}
+                            />
+                        </Form.Control>
+                        <Form.FieldErrors />
+                    </Form.Field>
+
+                    <Form.Field {form} name="poliza_egreso.banco">
+                        <Form.Control let:attrs>
+                            <Form.Label>Banco</Form.Label>
+                            <Select.Root
+                                selected={bancoSeleccionado}
+                                onSelectedChange={(v) => {
+                                    v &&
+                                        ($formDatos.poliza_egreso.banco =
+                                            Number(v.value));
+                                }}
+                            >
+                                <Select.Trigger {...attrs}>
+                                    <Select.Value placeholder="Banco" />
+                                </Select.Trigger>
+                                <Select.Content>
+                                    {#each bancos as banco}
+                                        <Select.Item
+                                            value={banco.id_banco}
+                                            label={banco.nombre}
+                                            >{banco.nombre}</Select.Item
+                                        >
+                                    {/each}
+                                </Select.Content>
+                            </Select.Root>
+                        </Form.Control>
+                        <Form.FieldErrors />
+                    </Form.Field>
+                    <Form.Field {form} name="poliza_egreso.cheque">
+                        <Form.Control let:attrs>
+                            <Form.Label>Cheque</Form.Label>
+                            <Input
+                                {...attrs}
+                                bind:value={$formDatos.poliza_egreso.cheque}
+                            />
+                        </Form.Control>
+                        <Form.FieldErrors />
+                    </Form.Field>
+                </div>
+            </Card.Content>
+        </Card.Root>
+    {/if}
 
     {#if $message}
         <Alert.Root variant="destructive" class="mb-1">

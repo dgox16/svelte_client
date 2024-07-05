@@ -7,17 +7,28 @@ import { zod } from "sveltekit-superforms/adapters";
 export const load: PageServerLoad = async ({ locals, fetch }) => {
 	if (!locals.userId) redirect(302, "/iniciar-sesion");
 
-	const respuesta = await fetch("http://localhost:8000/api/sucursal/buscar", {
-		method: "GET",
-	});
+	const respuestaSucursales = await fetch(
+		"http://localhost:8000/api/sucursal/buscar",
+		{
+			method: "GET",
+		},
+	);
+	const resultadoSucursales = await respuestaSucursales.json();
+	let sucursales = resultadoSucursales.datos;
 
-	const resultado = await respuesta.json();
-
-	let sucursales = resultado.datos;
+	const respuestaBancos = await fetch(
+		"http://localhost:8000/api/banco/buscar",
+		{
+			method: "GET",
+		},
+	);
+	const resultadoBancos = await respuestaBancos.json();
+	let bancos = resultadoBancos.datos;
 
 	return {
 		form: await superValidate(zod(AgregarPolizaEsquema)),
 		sucursales,
+		bancos,
 	};
 };
 
@@ -29,13 +40,18 @@ export const actions: Actions = {
 				form,
 			});
 		}
+		const formAuxiliar = JSON.parse(JSON.stringify(form.data));
+
+		if (form.data.tipo !== "Egreso") {
+			formAuxiliar.poliza_egreso = null;
+		}
 
 		const respuesta = await fetch("http://localhost:8000/api/poliza/nueva", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(form.data),
+			body: JSON.stringify(formAuxiliar),
 			credentials: "include",
 		});
 
