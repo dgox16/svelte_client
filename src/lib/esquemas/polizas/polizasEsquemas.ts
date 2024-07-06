@@ -28,6 +28,49 @@ export const fuentesPoliza = {
 } as const;
 type FuentePoliza = keyof typeof fuentesPoliza;
 
+export const ivaDetallePoliza = {
+	NoAplica: "No aplica",
+	Iva0: "0",
+	Iva8: "8",
+	Iva11: "11",
+	Iva16: "16",
+} as const;
+type IvaDetallePoliza = keyof typeof ivaDetallePoliza;
+
+let poliza_egreso = z.object({
+	beneficiario: z.string().min(1).default("test"),
+	banco: z.number().default(1),
+	cheque: z.string().min(1).default("test"),
+});
+
+export const detalle_poliza_defecto = {
+	cuenta: 1,
+	cargo: 1.0,
+	abono: 1.0,
+	proveedor: 1,
+	concepto: "test",
+};
+
+let detalles_polizas = z
+	.array(
+		z.object({
+			cuenta: z.number().int(),
+			cargo: z.number().gte(0),
+			abono: z.number().gte(0),
+			proveedor: z.number().int(),
+			concepto: z.string().min(1),
+			iva: z
+				.enum(
+					Object.keys(ivaDetallePoliza) as [
+						IvaDetallePoliza,
+						...IvaDetallePoliza[],
+					],
+				)
+				.default("NoAplica"),
+		}),
+	)
+	.default(Array(5).fill(detalle_poliza_defecto));
+
 export const AgregarPolizaEsquema = z.object({
 	tipo: z
 		.enum(Object.keys(tiposPoliza) as [TipoPoliza, ...TipoPoliza[]])
@@ -51,11 +94,8 @@ export const AgregarPolizaEsquema = z.object({
 		.enum(Object.keys(fuentesPoliza) as [FuentePoliza, ...FuentePoliza[]])
 		.default("Operacion"),
 
-	poliza_egreso: z.object({
-		beneficiario: z.string().min(1).default("test"),
-		banco: z.number().default(1),
-		cheque: z.string().min(1).default("test"),
-	}),
+	poliza_egreso,
+	detalles_polizas,
 });
 
 export type AgregarPolizaFormType = typeof AgregarPolizaEsquema;
