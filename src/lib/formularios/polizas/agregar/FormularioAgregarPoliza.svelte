@@ -1,6 +1,6 @@
 <script lang="ts">
     import * as Form from "$lib/components/ui/form";
-    import SuperDebug, {
+    import {
         type SuperValidated,
         type Infer,
         superForm,
@@ -12,30 +12,19 @@
     } from "$lib/esquemas/polizas/polizasEsquemas";
     import * as Alert from "$lib/components/ui/alert/index.js";
     import ExclamationTriangle from "svelte-radix/ExclamationTriangle.svelte";
-    import {
-        tiposPoliza,
-        aplicacionesPoliza,
-        fuentesPoliza,
-    } from "$lib/esquemas/polizas/polizasEsquemas";
     import AgregarPolizaEgreso from "./AgregarPolizaEgreso.svelte";
     import AgregarPolizaBasica from "./AgregarPolizaBasica.svelte";
     import AgregarDetallesPoliza from "./AgregarDetallesPoliza.svelte";
+    import Button from "$lib/components/ui/button/button.svelte";
 
     export let datos;
 
     let formD: SuperValidated<Infer<AgregarPolizaFormType>> = datos.form;
 
-    let sucursales: Array<{
-        id_sucursal: number;
-        nombre: string;
-        domicilio: number;
-        encargado: 1;
-    }> = datos.sucursales;
-
-    let bancos: Array<{
-        id_banco: number;
-        nombre: string;
-    }> = datos.bancos;
+    const sucursales = datos.sucursales;
+    const bancos = datos.bancos;
+    const cuentas = datos.cuentas;
+    const proveedores = datos.proveedores;
 
     const form = superForm(formD, {
         validators: zodClient(AgregarPolizaEsquema),
@@ -44,40 +33,6 @@
 
     const { form: formDatos, enhance, message } = form;
 
-    $: tipoSeleccionado = {
-        label: tiposPoliza[$formDatos.tipo],
-        value: $formDatos.tipo,
-    };
-
-    $: aplicacionSeleccionada = {
-        label: aplicacionesPoliza[$formDatos.aplicacion],
-        value: $formDatos.aplicacion,
-    };
-
-    $: fuenteSeleccionada = {
-        label: fuentesPoliza[$formDatos.fuente],
-        value: $formDatos.fuente,
-    };
-
-    $: sucursalSeleccionada = $formDatos.sucursal
-        ? {
-              label: sucursales.find(
-                  (sucursal) => sucursal.id_sucursal === $formDatos.sucursal,
-              )?.nombre,
-              value: $formDatos.sucursal,
-          }
-        : undefined;
-
-    $: bancoSeleccionado = $formDatos.poliza_egreso?.banco
-        ? {
-              label: bancos.find(
-                  (sucursal) =>
-                      sucursal.id_banco === $formDatos.poliza_egreso?.banco,
-              )?.nombre,
-              value: $formDatos.poliza_egreso?.banco,
-          }
-        : undefined;
-
     $: if ($message) {
         setTimeout(() => {
             message.set("");
@@ -85,28 +40,54 @@
     }
 
     let mostrarPolizaEgreso = false;
+    let mostrarDetalles = false;
+    let numeroDetalles = 0;
+
+    const llenarDetalles = (aMostrar: boolean, numeroDetalle: number) => {
+        console.info(numeroDetalle);
+        $formDatos.detalles_poliza[numeroDetalle].concepto = aMostrar
+            ? ""
+            : "test";
+
+        $formDatos.detalles_poliza[numeroDetalle].cargo = aMostrar
+            ? undefined
+            : 0;
+        $formDatos.detalles_poliza[numeroDetalle].abono = aMostrar
+            ? undefined
+            : 0;
+    };
 </script>
 
 <form method="POST" use:enhance>
-    <AgregarPolizaBasica
-        {form}
-        {formDatos}
-        {tiposPoliza}
-        {tipoSeleccionado}
-        {sucursales}
-        {sucursalSeleccionada}
-        {aplicacionesPoliza}
-        {aplicacionSeleccionada}
-        {fuentesPoliza}
-        {fuenteSeleccionada}
-        bind:mostrarPolizaEgreso
-    />
+    <AgregarPolizaBasica {form} {sucursales} bind:mostrarPolizaEgreso />
 
     {#if mostrarPolizaEgreso}
-        <AgregarPolizaEgreso {form} {formDatos} {bancos} {bancoSeleccionado} />
+        <AgregarPolizaEgreso {form} {bancos} />
     {/if}
 
-    <AgregarDetallesPoliza {form} {formDatos} />
+    <div class="flex justify-center my-4">
+        <Button
+            variant="secondary"
+            on:click={() => {
+                mostrarDetalles = !mostrarDetalles;
+                numeroDetalles = mostrarDetalles ? 1 : 0;
+                $formDatos.numeroDetalles = numeroDetalles;
+                llenarDetalles(mostrarDetalles, 0);
+            }}
+            >{mostrarDetalles
+                ? "No agregar detalles de poliza"
+                : "Agregar detalles de poliza"}</Button
+        >
+    </div>
+    {#if mostrarDetalles}
+        <AgregarDetallesPoliza
+            {form}
+            {cuentas}
+            {proveedores}
+            bind:numeroDetalles
+            {llenarDetalles}
+        />
+    {/if}
 
     {#if $message}
         <Alert.Root variant="destructive" class="mb-1">
@@ -119,5 +100,4 @@
     <div class="flex justify-end">
         <Form.Button class="font-semibold mt-3">AGREGAR</Form.Button>
     </div>
-    <SuperDebug data={$formDatos} />
 </form>

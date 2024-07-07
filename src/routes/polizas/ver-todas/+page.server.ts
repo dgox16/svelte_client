@@ -5,7 +5,7 @@ import { AgregarPolizaEsquema } from "$lib/esquemas/polizas/polizasEsquemas.js";
 import { zod } from "sveltekit-superforms/adapters";
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
-	if (!locals.userId) redirect(302, "/iniciar-sesion");
+	if (!locals.userId) redirect(302, "/auth/iniciar-sesion");
 
 	const respuesta = await fetch("http://localhost:8000/api/poliza/buscar", {
 		method: "GET",

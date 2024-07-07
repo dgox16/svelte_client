@@ -45,18 +45,18 @@ let poliza_egreso = z.object({
 
 export const detalle_poliza_defecto = {
 	cuenta: 1,
-	cargo: 1.0,
-	abono: 1.0,
+	cargo: 0,
+	abono: 0,
 	proveedor: 1,
 	concepto: "test",
 };
 
-let detalles_polizas = z
+export let detalles_poliza = z
 	.array(
 		z.object({
 			cuenta: z.number().int(),
-			cargo: z.number().gte(0),
-			abono: z.number().gte(0),
+			cargo: z.coerce.number().gte(0, "No puedes colocar un numero negativo"),
+			abono: z.coerce.number().gte(0, "No puedes colocar un numero negativo"),
 			proveedor: z.number().int(),
 			concepto: z.string().min(1),
 			iva: z
@@ -82,6 +82,7 @@ export const AgregarPolizaEsquema = z.object({
 		.default(1),
 	sucursal: z.number().int().default(2),
 	concepto: z.string().min(1, "Debe agregar un concepto"),
+	numeroDetalles: z.number().default(0),
 	aplicacion: z
 		.enum(
 			Object.keys(aplicacionesPoliza) as [
@@ -95,7 +96,7 @@ export const AgregarPolizaEsquema = z.object({
 		.default("Operacion"),
 
 	poliza_egreso,
-	detalles_polizas,
+	detalles_poliza,
 });
 
 export type AgregarPolizaFormType = typeof AgregarPolizaEsquema;

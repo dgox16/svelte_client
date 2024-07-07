@@ -2,18 +2,48 @@
     import * as Form from "$lib/components/ui/form";
     import * as Select from "$lib/components/ui/select";
     import Input from "$lib/components/ui/input/input.svelte";
+    import {
+        aplicacionesPoliza,
+        fuentesPoliza,
+        tiposPoliza,
+        type AgregarPolizaFormType,
+    } from "$lib/esquemas/polizas/polizasEsquemas";
+    import type { Infer, SuperForm } from "sveltekit-superforms";
 
-    export let form;
-    export let formDatos;
-    export let tiposPoliza;
-    export let tipoSeleccionado;
-    export let sucursales;
-    export let sucursalSeleccionada;
-    export let aplicacionesPoliza;
-    export let aplicacionSeleccionada;
-    export let fuentesPoliza;
-    export let fuenteSeleccionada;
+    export let form: SuperForm<Infer<AgregarPolizaFormType>>;
+
+    const { form: formDatos } = form;
     export let mostrarPolizaEgreso;
+    export let sucursales: Array<{
+        id_sucursal: number;
+        nombre: string;
+        domicilio: number;
+        encargado: 1;
+    }>;
+
+    $: tipoSeleccionado = {
+        label: tiposPoliza[$formDatos.tipo],
+        value: $formDatos.tipo,
+    };
+
+    $: aplicacionSeleccionada = {
+        label: aplicacionesPoliza[$formDatos.aplicacion],
+        value: $formDatos.aplicacion,
+    };
+
+    $: fuenteSeleccionada = {
+        label: fuentesPoliza[$formDatos.fuente],
+        value: $formDatos.fuente,
+    };
+
+    $: sucursalSeleccionada = $formDatos.sucursal
+        ? {
+              label: sucursales.find(
+                  (sucursal) => sucursal.id_sucursal === $formDatos.sucursal,
+              )?.nombre,
+              value: $formDatos.sucursal,
+          }
+        : undefined;
 </script>
 
 <div class="grid grid-cols-3 gap-x-10 gap-y-5">
@@ -24,17 +54,13 @@
                 selected={tipoSeleccionado}
                 onSelectedChange={(v) => {
                     v && ($formDatos.tipo = v.value);
-                    if (v?.value === "Egreso") {
-                        mostrarPolizaEgreso = true;
-                        $formDatos.poliza_egreso.beneficiario = "";
-                        $formDatos.poliza_egreso.banco = 1;
-                        $formDatos.poliza_egreso.cheque = "";
-                    } else {
-                        mostrarPolizaEgreso = false;
-                        $formDatos.poliza_egreso.beneficiario = "test";
-                        $formDatos.poliza_egreso.banco = 1;
-                        $formDatos.poliza_egreso.cheque = "test";
-                    }
+                    let esEgreso = v?.value === "Egreso";
+                    mostrarPolizaEgreso = esEgreso;
+                    $formDatos.poliza_egreso.beneficiario = esEgreso
+                        ? ""
+                        : "test";
+                    $formDatos.poliza_egreso.banco = 1;
+                    $formDatos.poliza_egreso.cheque = esEgreso ? "" : "test";
                 }}
             >
                 <Select.Trigger {...attrs}>

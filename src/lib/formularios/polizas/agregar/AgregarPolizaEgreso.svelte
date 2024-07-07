@@ -3,11 +3,25 @@
     import * as Select from "$lib/components/ui/select";
     import Input from "$lib/components/ui/input/input.svelte";
     import * as Card from "$lib/components/ui/card/index.js";
+    import type { Infer, SuperForm } from "sveltekit-superforms";
+    import type { AgregarPolizaFormType } from "$lib/esquemas/polizas/polizasEsquemas";
 
-    export let form;
-    export let formDatos;
-    export let bancos;
-    export let bancoSeleccionado;
+    export let form: SuperForm<Infer<AgregarPolizaFormType>>;
+    export let bancos: Array<{
+        id_banco: number;
+        nombre: string;
+    }>;
+
+    const { form: formDatos } = form;
+
+    $: bancoSeleccionado = $formDatos.poliza_egreso?.banco
+        ? {
+              label: bancos.find(
+                  (banco) => banco.id_banco === $formDatos.poliza_egreso?.banco,
+              )?.nombre,
+              value: $formDatos.poliza_egreso?.banco,
+          }
+        : undefined;
 </script>
 
 <Card.Root>

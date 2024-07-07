@@ -3,6 +3,7 @@
     import * as Card from "$lib/components/ui/card/index.js";
     import FormularioAgregarPoliza from "$lib/formularios/polizas/agregar/FormularioAgregarPoliza.svelte";
     import MainTitle from "$lib/components/layout/MainTitle.svelte";
+    import { Toaster } from "$lib/components/ui/sonner";
 
     export let data: PageData;
 </script>
@@ -17,3 +18,5 @@
         <FormularioAgregarPoliza datos={data} />
     </Card.Content>
 </Card.Root>
+
+<Toaster />
