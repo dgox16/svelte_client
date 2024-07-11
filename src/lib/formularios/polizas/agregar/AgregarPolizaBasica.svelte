@@ -2,13 +2,13 @@
     import * as Form from "$lib/components/ui/form";
     import * as Select from "$lib/components/ui/select";
     import Input from "$lib/components/ui/input/input.svelte";
+    import { type AgregarPolizaFormType } from "$lib/esquemas/polizas/polizasEsquemas";
+    import type { Infer, SuperForm } from "sveltekit-superforms";
     import {
         aplicacionesPoliza,
         fuentesPoliza,
         tiposPoliza,
-        type AgregarPolizaFormType,
-    } from "$lib/esquemas/polizas/polizasEsquemas";
-    import type { Infer, SuperForm } from "sveltekit-superforms";
+    } from "$lib/tipos/polizas/tiposPolizas";
 
     export let form: SuperForm<Infer<AgregarPolizaFormType>>;
 

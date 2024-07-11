@@ -1,41 +1,14 @@
+import {
+	aplicacionesPoliza,
+	fuentesPoliza,
+	ivaDetallePoliza,
+	tiposPoliza,
+	type AplicacionPoliza,
+	type FuentePoliza,
+	type IvaDetallePoliza,
+	type TipoPoliza,
+} from "$lib/tipos/polizas/tiposPolizas";
 import { z } from "zod";
-
-export const tiposPoliza = {
-	Diario: "Diario",
-	Egreso: "Egreso",
-	Ingreso: "Ingreso",
-} as const;
-type TipoPoliza = keyof typeof tiposPoliza;
-
-export const aplicacionesPoliza = {
-	Normal: "Normal",
-	Condonacion: "Condonacion",
-	ChequeOrden: "Cheque Orden",
-	CierreDiario: "Cierre Diario",
-	CierreMensual: "Cierre Mensual",
-	CierreAnual: "Cierre Anual",
-} as const;
-type AplicacionPoliza = keyof typeof aplicacionesPoliza;
-
-export const fuentesPoliza = {
-	Operacion: "Operacion",
-	Activos: "Activos",
-	Nomina: "Nomina",
-	Gastos: "Gastos",
-	Pasiva: "Pasiva",
-	Traslados: "Traslados",
-	Traspasos: "Traspasos",
-} as const;
-type FuentePoliza = keyof typeof fuentesPoliza;
-
-export const ivaDetallePoliza = {
-	NoAplica: "No aplica",
-	Iva0: "0",
-	Iva8: "8",
-	Iva11: "11",
-	Iva16: "16",
-} as const;
-type IvaDetallePoliza = keyof typeof ivaDetallePoliza;
 
 let poliza_egreso = z.object({
 	beneficiario: z.string().min(1).default("test"),

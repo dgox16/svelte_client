@@ -7,11 +7,13 @@
     import { DotsHorizontal } from "svelte-radix";
     import { toast } from "svelte-sonner";
     import { Toaster } from "$lib/components/ui/sonner/index.js";
+    import { format } from "date-fns";
+    import type { PolizaTipo } from "$lib/tipos/polizas/tiposPolizas.js";
 
     export let data: PageData;
-    let polizas = data.polizas;
+    let polizas: PolizaTipo[] = data.polizas;
 
-    const eliminarPoliza = async (poliza) => {
+    const eliminarPoliza = async (poliza: PolizaTipo) => {
         const respuesta = await fetch(
             `http://localhost:8000/api/poliza/eliminar/${poliza.id_poliza}`,
             {
@@ -54,12 +56,17 @@
                 <Table.Cell>{poliza.concepto}</Table.Cell>
                 <Table.Cell>{poliza.aplicacion}</Table.Cell>
                 <Table.Cell>{poliza.fuente}</Table.Cell>
-                <Table.Cell>{poliza.fecha_poliza}</Table.Cell>
+                <Table.Cell
+                    >{format(
+                        new Date(poliza.fecha_poliza),
+                        "dd/MM/yyyy HH:mm:ss",
+                    )}</Table.Cell
+                >
                 <Table.Cell>
                     <DropdownMenu.Root>
                         <DropdownMenu.Trigger asChild let:builder>
                             <Button builders={[builder]} variant="ghost"
-                                ><DotsHorizontal class="size-4" /></Button
+                                ><DotsHorizontal class="size-5" /></Button
                             >
                         </DropdownMenu.Trigger>
                         <DropdownMenu.Content class="w-40">
@@ -69,7 +76,9 @@
                                 >
                                 <DropdownMenu.Item>Editar</DropdownMenu.Item>
                                 <DropdownMenu.Item
-                                    on:click={eliminarPoliza(poliza)}
+                                    on:click={() => {
+                                        eliminarPoliza(poliza);
+                                    }}
                                     rel="external">Eliminar</DropdownMenu.Item
                                 >
                             </DropdownMenu.Group>
