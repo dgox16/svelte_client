@@ -8,12 +8,12 @@
     import { toast } from "svelte-sonner";
     import { Toaster } from "$lib/components/ui/sonner/index.js";
     import { format } from "date-fns";
-    import type { PolizaTipo } from "$lib/tipos/polizas/tiposPolizas.js";
+    import { type Poliza } from "$lib/modelos/polizas/polizaBasica";
 
     export let data: PageData;
-    let polizas: PolizaTipo[] = data.polizas;
+    let polizas: Poliza[] = data.polizas;
 
-    const eliminarPoliza = async (poliza: PolizaTipo) => {
+    const eliminarPoliza = async (poliza: Poliza) => {
         const respuesta = await fetch(
             `http://localhost:8000/api/poliza/eliminar/${poliza.id_poliza}`,
             {

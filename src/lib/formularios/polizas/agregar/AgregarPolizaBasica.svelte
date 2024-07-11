@@ -8,7 +8,7 @@
         aplicacionesPoliza,
         fuentesPoliza,
         tiposPoliza,
-    } from "$lib/tipos/polizas/tiposPolizas";
+    } from "$lib/modelos/polizas/polizaBasica";
 
     export let form: SuperForm<Infer<AgregarPolizaFormType>>;
 

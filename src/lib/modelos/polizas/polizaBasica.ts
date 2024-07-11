@@ -35,7 +35,7 @@ export const ivaDetallePoliza = {
 } as const;
 export type IvaDetallePoliza = keyof typeof ivaDetallePoliza;
 
-export interface PolizaTipo {
+export interface Poliza {
 	id_poliza: number;
 	tipo: TipoPoliza;
 	numero: number;

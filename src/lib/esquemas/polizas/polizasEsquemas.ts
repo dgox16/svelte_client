@@ -7,7 +7,7 @@ import {
 	type FuentePoliza,
 	type IvaDetallePoliza,
 	type TipoPoliza,
-} from "$lib/tipos/polizas/tiposPolizas";
+} from "$lib/modelos/polizas/polizaBasica";
 import { z } from "zod";
 
 let poliza_egreso = z.object({
