@@ -1,5 +1,5 @@
 import { InicioSesionEsquema } from "$lib/esquemas/auth/autorizacionEsquemas";
-import type { AuthTokens } from "$lib/modelos/auth/auth-tokens.js";
+import type { AuthTokens } from "$lib/modelos/auth/authTokens.js";
 import {
 	colocarAccessTokenCookie,
 	colocarRefreshTokenCookie,

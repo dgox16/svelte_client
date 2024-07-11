@@ -1,6 +1,6 @@
 import { JWT_SECRETO } from "$env/static/private";
-import type { AuthTokens } from "$lib/modelos/auth/auth-tokens";
-import type { JwtPayload } from "$lib/modelos/auth/jwt-payload";
+import type { AuthTokens } from "$lib/modelos/auth/authTokens";
+import type { JwtPayload } from "$lib/modelos/auth/jwtPayload";
 import {
 	colocarAccessTokenCookie,
 	colocarRefreshTokenCookie,

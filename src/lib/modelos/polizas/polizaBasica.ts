@@ -47,5 +47,5 @@ export interface Poliza {
 	usuario_elabora: number;
 	aplicacion: AplicacionPoliza;
 	fuente: FuentePoliza;
-	automatico?: boolean;
+	automatico: boolean;
 }
