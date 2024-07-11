@@ -20,7 +20,7 @@
                         href="/polizas/agregar"
                     >
                         <PlusCircled class="size-4 mr-2" />
-                        Agregar nueva poliza
+                        Nueva poliza
                     </Button>
                     <Button
                         variant="ghost"
@@ -29,6 +29,21 @@
                     >
                         <ListBullet class="size-4 mr-2" />
                         Ver polizas
+                    </Button>
+                </div>
+            </div>
+            <div class=" py-2">
+                <h2 class="mb-2 text-lg font-semibold tracking-tight">
+                    Contrato de Captación
+                </h2>
+                <div class="space-y-1">
+                    <Button
+                        variant="ghost"
+                        class="w-full justify-start"
+                        href="/contrato-captacion/agregar"
+                    >
+                        <PlusCircled class="size-4 mr-2" />
+                        Nuevo contrato de captación
                     </Button>
                 </div>
             </div>
