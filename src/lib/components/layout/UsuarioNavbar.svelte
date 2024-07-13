@@ -5,10 +5,10 @@
 </script>
 
 <header
-    class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto bg-background backdrop-blur bg-opacity-80"
+    class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto bg-background"
 >
     <nav
-        class="flex h-16 flex-row justify-between items-center mx-7 my-auto w-[1500px]"
+        class="w-[1500px] flex h-16 flex-row justify-between items-center mx-7 my-auto"
     >
         <div><a href="/" class="font-bold text-xl">SICAP</a></div>
         <div class="flex flex-row">

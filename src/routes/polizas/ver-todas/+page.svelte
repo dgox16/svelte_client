@@ -72,9 +72,9 @@
                         <DropdownMenu.Content class="w-40">
                             <DropdownMenu.Group>
                                 <DropdownMenu.Item
-                                    >Ver detalles</DropdownMenu.Item
+                                    href={`/polizas/editar/${poliza.id_poliza}`}
+                                    >Editar</DropdownMenu.Item
                                 >
-                                <DropdownMenu.Item>Editar</DropdownMenu.Item>
                                 <DropdownMenu.Item
                                     on:click={() => {
                                         eliminarPoliza(poliza);

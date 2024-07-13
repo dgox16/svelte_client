@@ -19,7 +19,13 @@
 <ModeWatcher />
 {#if !data.usuario}
     <InvitadoNavbar />
-    <slot />
+    <div class="flex justify-center">
+        <div class="w-[1500px] mx-7">
+            <MainContent>
+                <slot />
+            </MainContent>
+        </div>
+    </div>
 {:else if !$usuarioStore}
     <Loading />
 {:else}

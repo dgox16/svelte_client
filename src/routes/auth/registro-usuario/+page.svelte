@@ -5,7 +5,7 @@
     export let data: PageData;
 </script>
 
-<main class="flex justify-center items-center min-h-screen">
+<main class="flex justify-center items-center min-h-[calc(100vh-15.5rem)]">
     <Card.Root class="px-5">
         <Card.Header>
             <Card.Title class="text-3xl">Crea una cuenta</Card.Title>

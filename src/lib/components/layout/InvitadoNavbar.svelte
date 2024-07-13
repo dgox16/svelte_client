@@ -5,12 +5,12 @@
 </script>
 
 <header
-    class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto"
+    class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto bg-background"
 >
     <nav
         class="w-[1500px] flex h-16 flex-row justify-between items-center mx-7 my-auto"
     >
-        <div><span class="font-bold">SICAP</span></div>
+        <div><a href="/" class="font-bold text-xl">SICAP</a></div>
         <div class="flex flex-row">
             <Button on:click={toggleMode} variant="outline" size="icon">
                 <Sun

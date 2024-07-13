@@ -1,6 +1,6 @@
 <script lang="ts">
     import * as Form from "$lib/components/ui/form";
-    import {
+    import SuperDebug, {
         type SuperValidated,
         type Infer,
         superForm,
