@@ -5,15 +5,38 @@
     import type { PageData } from "./$types.js";
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
     import * as Dialog from "$lib/components/ui/dialog/index.js";
-
-    export let data: PageData;
-
     import { format } from "date-fns";
     import { Button, buttonVariants } from "$lib/components/ui/button/index.js";
     import { DotsHorizontal } from "svelte-radix";
     import { Label } from "$lib/components/ui/label/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
-    console.info(data);
+    import type { Poliza } from "$lib/modelos/polizas/polizaBasica.js";
+    import { toast } from "svelte-sonner";
+    import { Toaster } from "$lib/components/ui/sonner/index.js";
+
+    export let data: PageData;
+
+    const poliza: Poliza = data.poliza;
+    const poliza_egreso = data.poliza_egreso;
+    let detalles_poliza = data.detalles_poliza;
+
+    const eliminarDetallePoliza = async (id: Number) => {
+        const respuesta = await fetch(
+            `http://localhost:8000/api/poliza/detalles/eliminar/${id}`,
+            {
+                method: "DELETE",
+            },
+        );
+        const resultado = await respuesta.json();
+        if (!resultado.estado) {
+            toast.error("Error al eliminar el detalle.");
+        } else {
+            toast.info("Detalle eliminado correctamente.");
+            detalles_poliza = detalles_poliza.filter(
+                (d) => d.id_detalle_poliza !== id,
+            );
+        }
+    };
 </script>
 
 <MainTitle
@@ -21,30 +44,28 @@
     subtitulo="Puedes revisar todos los detalle de la poliza"
 />
 <div class="grid grid-cols-3 gap-4">
-    <span><span class="font-bold">ID: </span>{data.poliza.id_poliza}</span>
+    <span><span class="font-bold">ID: </span>{poliza.id_poliza}</span>
     <span class="col-span-2"
-        ><span class="font-bold">Concepto: </span>{data.poliza.concepto}</span
+        ><span class="font-bold">Concepto: </span>{poliza.concepto}</span
     >
-    <span><span class="font-bold">Tipo: </span>{data.poliza.tipo}</span>
+    <span><span class="font-bold">Tipo: </span>{poliza.tipo}</span>
     <span
         ><span class="font-bold">Fecha: </span>{format(
-            new Date(data.poliza.fecha_poliza),
+            new Date(poliza.fecha_poliza),
             "dd/MM/yyyy HH:mm:ss",
         )}</span
     >
-    <span><span class="font-bold">Sucursal: </span>{data.poliza.sucursal}</span>
-    <span><span class="font-bold">Fuente: </span>{data.poliza.fuente}</span>
+    <span><span class="font-bold">Sucursal: </span>{poliza.sucursal}</span>
+    <span><span class="font-bold">Fuente: </span>{poliza.fuente}</span>
+    <span><span class="font-bold">Aplicación: </span>{poliza.aplicacion}</span>
     <span
-        ><span class="font-bold">Aplicación: </span>{data.poliza
-            .aplicacion}</span
-    >
-    <span
-        ><span class="font-bold">ID del usuario: </span>{data.poliza
-            .usuario_elabora}</span
+        ><span class="font-bold"
+            >ID del usuario:
+        </span>{poliza.usuario_elabora}</span
     >
 </div>
 
-{#if data.poliza.tipo == "Egreso"}
+{#if poliza.tipo == "Egreso"}
     <Card.Root class="mt-7">
         <Card.Header>
             <Card.Title class="text-2xl">Datos de egreso</Card.Title>
@@ -52,16 +73,19 @@
         <Card.Content>
             <div class="grid grid-cols-3 gap-4">
                 <span
-                    ><span class="font-bold">Beneficiario: </span>{data
-                        .poliza_egreso.beneficiario}</span
+                    ><span class="font-bold"
+                        >Beneficiario:
+                    </span>{poliza_egreso.beneficiario}</span
                 >
                 <span
-                    ><span class="font-bold">Banco: </span>{data.poliza_egreso
-                        .banco}</span
+                    ><span class="font-bold"
+                        >Banco:
+                    </span>{poliza_egreso.banco}</span
                 >
                 <span
-                    ><span class="font-bold">Cheque: </span>{data.poliza_egreso
-                        .cheque}</span
+                    ><span class="font-bold"
+                        >Cheque:
+                    </span>{poliza_egreso.cheque}</span
                 >
             </div>
         </Card.Content>
@@ -111,8 +135,11 @@
         </div>
     </Card.Header>
     <Card.Content>
-        {#if data.detalles_poliza == undefined}
-            <h1>No hay detalles</h1>{:else}
+        {#if detalles_poliza == undefined}
+            <div class="flex justify-center items-center my-6">
+                <h1 class="text-lg font-semibold uppercase">No hay detalles</h1>
+            </div>
+        {:else}
             <Table.Root>
                 <Table.Header>
                     <Table.Row>
@@ -126,7 +153,7 @@
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {#each data.detalles_poliza as detalle, i (i)}
+                    {#each detalles_poliza as detalle, i (i)}
                         <Table.Row>
                             <Table.Cell class="font-medium"
                                 >{detalle.id_detalle_poliza}</Table.Cell
@@ -150,8 +177,13 @@
                                     <DropdownMenu.Content class="w-40">
                                         <DropdownMenu.Group>
                                             <DropdownMenu.Item
-                                                href={`/polizas/editar/${detalle.id_detalle_poliza}`}
-                                                >Editar</DropdownMenu.Item
+                                                on:click={() => {
+                                                    eliminarDetallePoliza(
+                                                        detalle.id_detalle_poliza,
+                                                    );
+                                                }}
+                                                rel="external"
+                                                >Eliminar</DropdownMenu.Item
                                             >
                                         </DropdownMenu.Group>
                                     </DropdownMenu.Content>
@@ -164,3 +196,4 @@
         {/if}
     </Card.Content>
 </Card.Root>
+<Toaster />
