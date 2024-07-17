@@ -72,6 +72,10 @@
                         <DropdownMenu.Content class="w-40">
                             <DropdownMenu.Group>
                                 <DropdownMenu.Item
+                                    href={`/polizas/visualizar/${poliza.id_poliza}`}
+                                    >Visualizar</DropdownMenu.Item
+                                >
+                                <DropdownMenu.Item
                                     href={`/polizas/editar/${poliza.id_poliza}`}
                                     >Editar</DropdownMenu.Item
                                 >

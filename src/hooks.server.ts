@@ -5,7 +5,7 @@ import {
 	colocarAccessTokenCookie,
 	colocarRefreshTokenCookie,
 	removerAutorizacion,
-} from "$lib/server/utils/util";
+} from "$lib/funciones/auth/cookies";
 import {
 	redirect,
 	type Cookies,

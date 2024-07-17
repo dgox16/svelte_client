@@ -33,6 +33,7 @@
 		"date-fns": "^3.6.0",
 		"formsnap": "^1.0.1",
 		"jsonwebtoken": "^9.0.2",
+		"jspdf": "^2.5.1",
 		"lucide-svelte": "^0.399.0",
 		"mode-watcher": "^0.3.1",
 		"svelte-radix": "^1.1.0",

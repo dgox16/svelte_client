@@ -24,24 +24,24 @@ export const detalle_poliza_defecto = {
 	concepto: "test",
 };
 
+export let AgregarDetallePolizaEsquema = z.object({
+	cuenta: z.number().int(),
+	cargo: z.coerce.number().gte(0, "No puedes colocar un numero negativo"),
+	abono: z.coerce.number().gte(0, "No puedes colocar un numero negativo"),
+	proveedor: z.number().int(),
+	concepto: z.string().min(1),
+	iva: z
+		.enum(
+			Object.keys(ivaDetallePoliza) as [
+				IvaDetallePoliza,
+				...IvaDetallePoliza[],
+			],
+		)
+		.default("NoAplica"),
+});
+
 export let detalles_poliza = z
-	.array(
-		z.object({
-			cuenta: z.number().int(),
-			cargo: z.coerce.number().gte(0, "No puedes colocar un numero negativo"),
-			abono: z.coerce.number().gte(0, "No puedes colocar un numero negativo"),
-			proveedor: z.number().int(),
-			concepto: z.string().min(1),
-			iva: z
-				.enum(
-					Object.keys(ivaDetallePoliza) as [
-						IvaDetallePoliza,
-						...IvaDetallePoliza[],
-					],
-				)
-				.default("NoAplica"),
-		}),
-	)
+	.array(AgregarDetallePolizaEsquema)
 	.default(Array(5).fill(detalle_poliza_defecto));
 
 export const AgregarPolizaEsquema = z.object({

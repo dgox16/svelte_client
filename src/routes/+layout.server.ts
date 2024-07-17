@@ -1,4 +1,4 @@
-import { removerAutorizacion } from "$lib/server/utils/util";
+import { removerAutorizacion } from "$lib/funciones/auth/cookies";
 import { error, redirect, type NumericRange } from "@sveltejs/kit";
 import type { LayoutServerLoad } from "./$types";
 import type { Usuario } from "$lib/modelos/usuarios/usuario";

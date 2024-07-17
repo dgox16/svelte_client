@@ -3,7 +3,7 @@ import type { AuthTokens } from "$lib/modelos/auth/authTokens.js";
 import {
 	colocarAccessTokenCookie,
 	colocarRefreshTokenCookie,
-} from "$lib/server/utils/util.js";
+} from "$lib/funciones/auth/cookies";
 import { redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types.js";
 import { fail, message, setError, superValidate } from "sveltekit-superforms";
