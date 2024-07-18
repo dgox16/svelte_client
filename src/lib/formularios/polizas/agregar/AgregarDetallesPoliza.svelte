@@ -7,16 +7,11 @@
     import Input from "$lib/components/ui/input/input.svelte";
     import Button from "$lib/components/ui/button/button.svelte";
     import { toast } from "svelte-sonner";
+    import type { Cuenta, Proveedor } from "$lib/modelos/polizas/detallePoliza";
 
     export let form: SuperForm<Infer<AgregarPolizaFormType>>;
-    export let cuentas: Array<{
-        id_cuenta: number;
-        nombre: string;
-    }>;
-    export let proveedores: Array<{
-        id_proveedor: number;
-        nombre: string;
-    }>;
+    export let cuentas: Array<Cuenta>;
+    export let proveedores: Array<Proveedor>;
     export let numeroDetalles: number;
     export let llenarDetalles;
 

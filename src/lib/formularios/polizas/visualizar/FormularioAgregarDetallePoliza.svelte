@@ -6,6 +6,7 @@
     import * as Alert from "$lib/components/ui/alert/index.js";
     import {
         ivaDetallePoliza,
+        type Cuenta,
         type DetallePoliza,
         type Proveedor,
     } from "$lib/modelos/polizas/detallePoliza";
@@ -22,7 +23,7 @@
     import { createEventDispatcher } from "svelte";
 
     export let formD: SuperValidated<Infer<AgregarDetallePolizaFormType>>;
-    export let cuentas;
+    export let cuentas: Array<Cuenta>;
     export let proveedores: Array<Proveedor>;
     export let abrirFormulario;
 
@@ -110,7 +111,6 @@
             <Select.Root
                 selected={proveedorSeleccionado}
                 onSelectedChange={(v) => {
-                    console.info(v.value);
                     v && ($formDatos.proveedor = Number(v.value));
                 }}
             >
