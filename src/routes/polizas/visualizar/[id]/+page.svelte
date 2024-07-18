@@ -1,22 +1,7 @@
 <script lang="ts">
-    import * as Card from "$lib/components/ui/card/index.js";
     import type { PageData } from "./$types.js";
-    import {
-        ivaDetallePoliza,
-        type Poliza,
-    } from "$lib/modelos/polizas/polizaBasica.js";
-    import { toast } from "svelte-sonner";
+    import { type Poliza } from "$lib/modelos/polizas/polizaBasica.js";
     import { Toaster } from "$lib/components/ui/sonner/index.js";
-    import {
-        AgregarDetallePolizaEsquema,
-        type AgregarDetallePolizaFormType,
-    } from "$lib/esquemas/polizas/polizasEsquemas.js";
-    import SuperDebug, {
-        superForm,
-        type Infer,
-        type SuperValidated,
-    } from "sveltekit-superforms";
-    import { zodClient } from "sveltekit-superforms/adapters";
     import PrincipalVerPoliza from "./PrincipalVerPoliza.svelte";
     import DetallesVerPoliza from "./DetallesVerPoliza.svelte";
 
