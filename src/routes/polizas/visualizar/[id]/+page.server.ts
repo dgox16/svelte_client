@@ -42,49 +42,33 @@ export const load: PageServerLoad = async ({ locals, fetch, params }) => {
 };
 
 export const actions: Actions = {
-	default: async ({ fetch, request }) => {
-		console.info(request);
+	default: async ({ fetch, request, params, url }) => {
 		const form = await superValidate(request, zod(AgregarDetallePolizaEsquema));
 		if (!form.valid) {
 			return fail(400, {
 				form,
 			});
 		}
-		const formAuxiliar = JSON.parse(JSON.stringify(form));
-		console.info(formAuxiliar);
 
-		// if (formAuxiliar.tipo !== "Egreso") {
-		// 	delete formAuxiliar.poliza_egreso;
-		// }
-		//
-		// if (formAuxiliar.numeroDetalles === 0) {
-		// 	delete formAuxiliar.detalles_poliza;
-		// } else {
-		// 	formAuxiliar.detalles_poliza = formAuxiliar.detalles_poliza.slice(
-		// 		0,
-		// 		formAuxiliar.numeroDetalles,
-		// 	);
-		// }
-		//
-		// delete formAuxiliar.numeroDetalles;
-		// console.info(JSON.stringify(formAuxiliar));
-		//
-		// const respuesta = await fetch("http://localhost:8000/api/poliza/nueva", {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// 	body: JSON.stringify(formAuxiliar),
-		// 	credentials: "include",
-		// });
-		//
-		// if (!respuesta.ok) {
-		// 	const error = await respuesta.json();
-		// 	setError(form, "general", error.mensaje);
-		// 	return message(form, error.mensaje);
-		// }
+		const respuesta = await fetch(
+			`http://localhost:8000/api/poliza/detalles/nuevo/${params.id}`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(form.data),
+				credentials: "include",
+			},
+		);
+		const resultado = await respuesta.json();
 
-		// redirect(302, "/polizas/ver-todas");
-		return { form };
+		if (!respuesta.ok) {
+			const error = await respuesta.json();
+			setError(form, "general", error.mensaje);
+			return message(form, error.mensaje);
+		}
+
+		return { form, nuevo_detalle: resultado.datos };
 	},
 };

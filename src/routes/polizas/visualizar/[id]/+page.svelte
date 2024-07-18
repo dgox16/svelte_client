@@ -43,6 +43,16 @@
     const form = superForm(formD, {
         validators: zodClient(AgregarDetallePolizaEsquema),
         dataType: "json",
+
+        onResult({ result }) {
+            if (result.type === "success") {
+                detalles_poliza = [
+                    ...detalles_poliza,
+                    result.data.nuevo_detalle,
+                ];
+                abrirFormulario = false;
+            }
+        },
     });
 
     const { form: formDatos, enhance, message } = form;
@@ -94,12 +104,14 @@
             );
         }
     };
+    let abrirFormulario = false;
 </script>
 
 <MainTitle
     titulo="Visualización de poliza"
     subtitulo="Puedes revisar todos los detalle de la poliza"
 />
+<button on:click={() => (abrirFormulario = true)}>Open</button>
 <div class="grid grid-cols-3 gap-4">
     <span><span class="font-bold">ID: </span>{poliza.id_poliza}</span>
     <span class="col-span-2"
@@ -153,7 +165,7 @@
     <Card.Header>
         <div class="flex justify-between">
             <Card.Title class="text-2xl">Detalles de poliza</Card.Title>
-            <Dialog.Root>
+            <Dialog.Root bind:open={abrirFormulario}>
                 <Dialog.Trigger class={buttonVariants({ variant: "outline" })}
                     >Agregar nuevo detalle</Dialog.Trigger
                 >
@@ -327,7 +339,6 @@
                             >AGREGAR</Form.Button
                         >
                     </form>
-                    <SuperDebug data={formDatos} />
                 </Dialog.Content>
             </Dialog.Root>
         </div>
