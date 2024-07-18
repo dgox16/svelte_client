@@ -26,15 +26,6 @@ export const fuentesPoliza = {
 } as const;
 export type FuentePoliza = keyof typeof fuentesPoliza;
 
-export const ivaDetallePoliza = {
-	NoAplica: "No aplica",
-	Iva0: "0",
-	Iva8: "8",
-	Iva11: "11",
-	Iva16: "16",
-} as const;
-export type IvaDetallePoliza = keyof typeof ivaDetallePoliza;
-
 export interface Poliza {
 	id_poliza: number;
 	tipo: TipoPoliza;

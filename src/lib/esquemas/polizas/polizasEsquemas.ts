@@ -1,11 +1,13 @@
 import {
+	ivaDetallePoliza,
+	type IvaDetallePoliza,
+} from "$lib/modelos/polizas/detallePoliza";
+import {
 	aplicacionesPoliza,
 	fuentesPoliza,
-	ivaDetallePoliza,
 	tiposPoliza,
 	type AplicacionPoliza,
 	type FuentePoliza,
-	type IvaDetallePoliza,
 	type TipoPoliza,
 } from "$lib/modelos/polizas/polizaBasica";
 import { z } from "zod";

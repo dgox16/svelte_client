@@ -4,7 +4,7 @@
     import { ExclamationTriangle } from "svelte-radix";
     import { Input } from "$lib/components/ui/input";
     import * as Alert from "$lib/components/ui/alert/index.js";
-    import { ivaDetallePoliza } from "$lib/modelos/polizas/polizaBasica";
+    import { ivaDetallePoliza } from "$lib/modelos/polizas/detallePoliza";
     import {
         AgregarDetallePolizaEsquema,
         type AgregarDetallePolizaFormType,
