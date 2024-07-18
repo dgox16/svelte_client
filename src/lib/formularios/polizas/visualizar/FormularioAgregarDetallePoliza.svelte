@@ -7,6 +7,7 @@
     import {
         ivaDetallePoliza,
         type DetallePoliza,
+        type Proveedor,
     } from "$lib/modelos/polizas/detallePoliza";
     import {
         AgregarDetallePolizaEsquema,
@@ -22,7 +23,7 @@
 
     export let formD: SuperValidated<Infer<AgregarDetallePolizaFormType>>;
     export let cuentas;
-    export let proveedores;
+    export let proveedores: Array<Proveedor>;
     export let abrirFormulario;
 
     const dispatch = createEventDispatcher();
