@@ -4,8 +4,9 @@
     import { toast } from "svelte-sonner";
     import { Button } from "$lib/components/ui/button/index.js";
     import { DotsHorizontal } from "svelte-radix";
+    import type { DetallePoliza } from "$lib/modelos/polizas/detallePoliza";
 
-    export let detalles_poliza;
+    export let detalles_poliza: Array<DetallePoliza>;
 
     const eliminarDetallePoliza = async (id: Number) => {
         const respuesta = await fetch(

@@ -6,3 +6,15 @@ export const ivaDetallePoliza = {
 	Iva16: "16",
 } as const;
 export type IvaDetallePoliza = keyof typeof ivaDetallePoliza;
+
+export interface DetallePoliza {
+	id_detalle_poliza: number;
+	poliza: number;
+	cuenta: number;
+	sucursal: number;
+	cargo: number;
+	abono: number;
+	proveedor: number;
+	concepto: string;
+	iva: IvaDetallePoliza;
+}

@@ -4,7 +4,10 @@
     import { ExclamationTriangle } from "svelte-radix";
     import { Input } from "$lib/components/ui/input";
     import * as Alert from "$lib/components/ui/alert/index.js";
-    import { ivaDetallePoliza } from "$lib/modelos/polizas/detallePoliza";
+    import {
+        ivaDetallePoliza,
+        type DetallePoliza,
+    } from "$lib/modelos/polizas/detallePoliza";
     import {
         AgregarDetallePolizaEsquema,
         type AgregarDetallePolizaFormType,
@@ -30,8 +33,10 @@
 
         onResult({ result }) {
             if (result.type === "success") {
-                console.info(result.data);
-                dispatch("agregar-detalle", result.data.nuevo_detalle);
+                dispatch(
+                    "agregar-detalle",
+                    result.data?.nuevo_detalle as DetallePoliza,
+                );
                 abrirFormulario = false;
             }
         },
