@@ -24,7 +24,7 @@ export const detalle_poliza_defecto = {
 	concepto: "test",
 };
 
-export let AgregarDetallePolizaEsquema = z.object({
+export const AgregarDetallePolizaEsquema = z.object({
 	cuenta: z.number().int(),
 	cargo: z.coerce.number().gte(0, "No puedes colocar un numero negativo"),
 	abono: z.coerce.number().gte(0, "No puedes colocar un numero negativo"),
@@ -39,6 +39,7 @@ export let AgregarDetallePolizaEsquema = z.object({
 		)
 		.default("NoAplica"),
 });
+export type AgregarDetallePolizaFormType = typeof AgregarDetallePolizaEsquema;
 
 export let detalles_poliza = z
 	.array(AgregarDetallePolizaEsquema)

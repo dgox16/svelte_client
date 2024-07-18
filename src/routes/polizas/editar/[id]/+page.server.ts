@@ -51,7 +51,6 @@ export const load: PageServerLoad = async ({ locals, fetch, params }) => {
 export const actions: Actions = {
 	default: async ({ fetch, request, params }) => {
 		const form = await superValidate(request, zod(EditarPolizaEsquema));
-		console.info(params.id);
 		if (!form.valid) {
 			return fail(400, {
 				form,
@@ -62,8 +61,6 @@ export const actions: Actions = {
 		if (formAuxiliar.tipo !== "Egreso") {
 			delete formAuxiliar.poliza_egreso;
 		}
-
-		console.info(JSON.stringify(formAuxiliar));
 
 		const respuesta = await fetch(
 			`http://localhost:8000/api/poliza/editar/${params.id}`,
