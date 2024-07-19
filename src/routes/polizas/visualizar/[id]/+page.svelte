@@ -16,6 +16,5 @@
 </script>
 
 <PrincipalVerPoliza {poliza} {poliza_egreso} />
-
 <DetallesVerPoliza {formD} {detalles_poliza} {cuentas} {proveedores} />
 <Toaster />
