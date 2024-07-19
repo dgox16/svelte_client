@@ -3,4 +3,7 @@
     import { usuarioStore } from "$lib/stores/usuario";
 </script>
 
-<MainTitle titulo="Datos del usuario" subtitulo={$usuarioStore.usuario} />
+<MainTitle
+    titulo="Datos del usuario"
+    subtitulo={$usuarioStore?.usuario ?? "Usuario no disponible"}
+/>

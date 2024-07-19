@@ -12,7 +12,9 @@
 
     export let data: LayoutData;
     beforeUpdate(() => {
-        usuarioStore.set(data.usuario);
+        if (data.usuario) {
+            usuarioStore.set(data.usuario);
+        }
     });
 </script>
 
