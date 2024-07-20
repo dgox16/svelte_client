@@ -16,8 +16,8 @@ export const load: PageServerLoad = async ({ locals, fetch, params }) => {
 	);
 	const resultadoPoliza = await respuestaPoliza.json();
 	const poliza: Poliza = resultadoPoliza.datos.poliza;
-	const poliza_egreso = resultadoPoliza.datos.poliza_egreso;
-	const detalles_poliza = resultadoPoliza.datos.detalles_poliza;
+	const polizaEgreso = resultadoPoliza.datos.poliza_egreso;
+	const detallesPoliza = resultadoPoliza.datos.detalles_poliza;
 
 	const respuestaCuentas = await fetch(
 		"http://localhost:8000/api/cuenta/buscar",
@@ -34,8 +34,8 @@ export const load: PageServerLoad = async ({ locals, fetch, params }) => {
 	return {
 		form: await superValidate(zod(AgregarDetallePolizaEsquema)),
 		poliza,
-		poliza_egreso,
-		detalles_poliza,
+		polizaEgreso,
+		detallesPoliza,
 		cuentas,
 		proveedores,
 	};

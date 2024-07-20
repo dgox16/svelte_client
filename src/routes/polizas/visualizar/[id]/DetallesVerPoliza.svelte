@@ -6,14 +6,14 @@
     import FormularioAgregarDetallePoliza from "$lib/formularios/polizas/visualizar/FormularioAgregarDetallePoliza.svelte";
     import type { DetallePoliza } from "$lib/modelos/polizas/detallePoliza";
 
-    export let detalles_poliza: Array<DetallePoliza>;
+    export let detallesPoliza: Array<DetallePoliza>;
     export let formD;
     export let cuentas;
     export let proveedores;
 
     let abrirFormulario = false;
     function agregarDetalle(nuevo_detalle: DetallePoliza) {
-        detalles_poliza = [...detalles_poliza, nuevo_detalle];
+        detallesPoliza = [...detallesPoliza, nuevo_detalle];
     }
 </script>
 
@@ -45,6 +45,6 @@
         </div>
     </Card.Header>
     <Card.Content>
-        <TablaDetallesVerPoliza {detalles_poliza} />
+        <TablaDetallesVerPoliza {detallesPoliza} />
     </Card.Content>
 </Card.Root>

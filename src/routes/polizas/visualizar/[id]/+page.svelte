@@ -8,13 +8,13 @@
     export let data: PageData;
 
     const poliza: Poliza = data.poliza;
-    const poliza_egreso = data.poliza_egreso;
+    const polizaEgreso = data.polizaEgreso;
     const formD = data.form;
     const cuentas = data.cuentas;
     const proveedores = data.proveedores;
-    let detalles_poliza = data.detalles_poliza;
+    let detallesPoliza = data.detallesPoliza;
 </script>
 
-<PrincipalVerPoliza {poliza} {poliza_egreso} />
-<DetallesVerPoliza {formD} {detalles_poliza} {cuentas} {proveedores} />
+<PrincipalVerPoliza {poliza} {polizaEgreso} {detallesPoliza} />
+<DetallesVerPoliza {formD} {detallesPoliza} {cuentas} {proveedores} />
 <Toaster />

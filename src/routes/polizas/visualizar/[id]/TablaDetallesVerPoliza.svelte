@@ -6,7 +6,7 @@
     import { DotsHorizontal } from "svelte-radix";
     import type { DetallePoliza } from "$lib/modelos/polizas/detallePoliza";
 
-    export let detalles_poliza: Array<DetallePoliza>;
+    export let detallesPoliza: Array<DetallePoliza>;
 
     const eliminarDetallePoliza = async (id: Number) => {
         const respuesta = await fetch(
@@ -20,14 +20,14 @@
             toast.error("Error al eliminar el detalle.");
         } else {
             toast.info("Detalle eliminado correctamente.");
-            detalles_poliza = detalles_poliza.filter(
+            detallesPoliza = detallesPoliza.filter(
                 (d) => d.id_detalle_poliza !== id,
             );
         }
     };
 </script>
 
-{#if detalles_poliza == undefined}
+{#if detallesPoliza == undefined}
     <div class="flex justify-center items-center my-6">
         <h1 class="text-lg font-semibold uppercase">No hay detalles</h1>
     </div>
@@ -45,7 +45,7 @@
             </Table.Row>
         </Table.Header>
         <Table.Body>
-            {#each detalles_poliza as detalle, i (i)}
+            {#each detallesPoliza as detalle, i (i)}
                 <Table.Row>
                     <Table.Cell class="font-medium"
                         >{detalle.id_detalle_poliza}</Table.Cell
