@@ -18,7 +18,7 @@
     />
     <Button
         variant="default"
-        on:click={() => generarPdf(poliza, detallesPoliza)}
+        on:click={() => generarPdf(poliza, polizaEgreso, detallesPoliza)}
         >Descargar en PDF</Button
     >
 </div>
