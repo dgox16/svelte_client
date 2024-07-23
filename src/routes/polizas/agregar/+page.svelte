@@ -51,7 +51,6 @@
     let numeroDetalles = 0;
 
     const llenarDetalles = (aMostrar: boolean, numeroDetalle: number) => {
-        console.info(numeroDetalle);
         $formDatos.detalles_poliza[numeroDetalle].concepto = aMostrar
             ? ""
             : "test";

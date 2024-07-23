@@ -22,6 +22,7 @@
     export let abrirFormularioSucursal;
     export let usuarios;
     export let domicilios;
+
     const form = superForm(formDSucursal, {
         validators: zodClient(AgregarSucursalEsquema),
         dataType: "json",

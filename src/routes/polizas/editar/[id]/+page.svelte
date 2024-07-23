@@ -22,9 +22,12 @@
     export let data: PageData;
 
     let formD: SuperValidated<Infer<EditarPolizaFormType>> = data.form;
+    let formDSucursal = data.formSucursal;
 
     const sucursales = data.sucursales;
     const bancos = data.bancos;
+    const usuarios = data.usuarios;
+    const domicilios = data.domicilios;
 
     const form = superForm(formD, {
         validators: zodClient(EditarPolizaEsquema),
@@ -46,8 +49,15 @@
 
 <Card.Root>
     <Card.Content class="py-4">
-        <form method="POST" use:enhance>
-            <EditarPolizaBasica {form} {sucursales} bind:mostrarPolizaEgreso />
+        <form method="POST" use:enhance action="?/editarPoliza">
+            <EditarPolizaBasica
+                {form}
+                {sucursales}
+                bind:mostrarPolizaEgreso
+                {formDSucursal}
+                {usuarios}
+                {domicilios}
+            />
 
             {#if mostrarPolizaEgreso}
                 <EditarPolizaEgreso {form} {bancos} />
