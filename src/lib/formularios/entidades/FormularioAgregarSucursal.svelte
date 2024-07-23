@@ -29,7 +29,6 @@
         onResult({ result }) {
             if (result.type === "success") {
                 dispatch("agregar-sucursal", result.data?.nuevaSucursal);
-                console.info(result.data?.nuevaSucursal);
                 abrirFormularioSucursal = false;
                 toast("La sucursal fue agregada correctamente.");
             }

@@ -139,19 +139,6 @@
         </Form.Control>
         <Form.FieldErrors />
     </Form.Field>
-    <Form.Field {form} name="abono" class="py-2 flex flex-row items-center">
-        <Form.Control let:attrs>
-            <Form.Label class="mr-5 mt-2">Abono:</Form.Label>
-            <Input
-                type="number"
-                min="0"
-                step="0.01"
-                {...attrs}
-                bind:value={$formDatos.abono}
-            />
-        </Form.Control>
-        <Form.FieldErrors />
-    </Form.Field>
     <Form.Field {form} name="cargo" class="py-2 flex flex-row items-center">
         <Form.Control let:attrs>
             <Form.Label class="mr-5 mt-2">Cargo:</Form.Label>
@@ -161,6 +148,19 @@
                 step="0.01"
                 {...attrs}
                 bind:value={$formDatos.cargo}
+            />
+        </Form.Control>
+        <Form.FieldErrors />
+    </Form.Field>
+    <Form.Field {form} name="abono" class="py-2 flex flex-row items-center">
+        <Form.Control let:attrs>
+            <Form.Label class="mr-5 mt-2">Abono:</Form.Label>
+            <Input
+                type="number"
+                min="0"
+                step="0.01"
+                {...attrs}
+                bind:value={$formDatos.abono}
             />
         </Form.Control>
         <Form.FieldErrors />
