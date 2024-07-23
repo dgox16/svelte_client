@@ -1,16 +1,26 @@
 <script lang="ts">
+    import * as Dialog from "$lib/components/ui/dialog/index.js";
+    import { buttonVariants } from "$lib/components/ui/button/index.js";
     import * as Form from "$lib/components/ui/form";
     import * as Select from "$lib/components/ui/select";
     import Input from "$lib/components/ui/input/input.svelte";
     import { type AgregarPolizaFormType } from "$lib/esquemas/polizas/polizasEsquemas";
-    import type { Infer, SuperForm } from "sveltekit-superforms";
+    import type {
+        Infer,
+        SuperForm,
+        SuperValidated,
+    } from "sveltekit-superforms";
     import {
         aplicacionesPoliza,
         fuentesPoliza,
         tiposPoliza,
     } from "$lib/modelos/polizas/polizaBasica";
+    import { Plus } from "svelte-radix";
+    import type { AgregarSucursalFormType } from "$lib/esquemas/entidades/sucursalEsquemas";
+    import FormularioAgregarSucursal from "$lib/formularios/entidades/FormularioAgregarSucursal.svelte";
 
     export let form: SuperForm<Infer<AgregarPolizaFormType>>;
+    export let formDSucursal: SuperValidated<Infer<AgregarSucursalFormType>>;
 
     const { form: formDatos } = form;
     export let mostrarPolizaEgreso;
@@ -20,6 +30,8 @@
         domicilio: number;
         encargado: 1;
     }>;
+    export let usuarios;
+    export let domicilios;
 
     $: tipoSeleccionado = {
         label: tiposPoliza[$formDatos.tipo],
@@ -44,6 +56,11 @@
               value: $formDatos.sucursal,
           }
         : undefined;
+
+    const agregarSucursal = (nuevaSucursal) => {
+        sucursales = [...sucursales, nuevaSucursal];
+    };
+    let abrirFormularioSucursal = false;
 </script>
 
 <div class="grid grid-cols-3 gap-x-10 gap-y-5">
@@ -92,25 +109,55 @@
     <Form.Field {form} name="sucursal">
         <Form.Control let:attrs>
             <Form.Label>Sucursal</Form.Label>
-            <Select.Root
-                selected={sucursalSeleccionada}
-                onSelectedChange={(v) => {
-                    v && ($formDatos.sucursal = Number(v.value));
-                }}
-            >
-                <Select.Trigger {...attrs}>
-                    <Select.Value placeholder="Selecciona la sucursal" />
-                </Select.Trigger>
-                <Select.Content>
-                    {#each sucursales as sucursal}
-                        <Select.Item
-                            value={sucursal.id_sucursal}
-                            label={sucursal.nombre}
-                            >{sucursal.nombre}</Select.Item
+            <div class="flex flex-row">
+                <Select.Root
+                    selected={sucursalSeleccionada}
+                    onSelectedChange={(v) => {
+                        v && ($formDatos.sucursal = Number(v.value));
+                    }}
+                >
+                    <Select.Trigger {...attrs}>
+                        <Select.Value placeholder="Selecciona la sucursal" />
+                    </Select.Trigger>
+                    <Select.Content>
+                        {#each sucursales as sucursal}
+                            <Select.Item
+                                value={sucursal.id_sucursal}
+                                label={sucursal.nombre}
+                                >{sucursal.nombre}</Select.Item
+                            >
+                        {/each}
+                    </Select.Content>
+                </Select.Root>
+                <div class="ml-3">
+                    <Dialog.Root bind:open={abrirFormularioSucursal}>
+                        <Dialog.Trigger
+                            class={buttonVariants({
+                                variant: "default",
+                                size: "icon",
+                            })}><Plus class="size-5" /></Dialog.Trigger
                         >
-                    {/each}
-                </Select.Content>
-            </Select.Root>
+                        <Dialog.Content class="sm:max-w-[425px]">
+                            <Dialog.Header>
+                                <Dialog.Title
+                                    >Agregar nueva sucursal</Dialog.Title
+                                >
+                                <Dialog.Description>
+                                    Completa los campos siguientes.
+                                </Dialog.Description>
+                            </Dialog.Header>
+                            <FormularioAgregarSucursal
+                                {formDSucursal}
+                                bind:abrirFormularioSucursal
+                                {usuarios}
+                                {domicilios}
+                                on:agregar-sucursal={(event) =>
+                                    agregarSucursal(event.detail)}
+                            />
+                        </Dialog.Content>
+                    </Dialog.Root>
+                </div>
+            </div>
         </Form.Control>
         <Form.FieldErrors />
     </Form.Field>

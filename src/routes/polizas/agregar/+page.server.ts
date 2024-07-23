@@ -3,25 +3,18 @@ import type { Actions, PageServerLoad } from "./$types.js";
 import { fail, message, setError, superValidate } from "sveltekit-superforms";
 import { AgregarPolizaEsquema } from "$lib/esquemas/polizas/polizasEsquemas.js";
 import { zod } from "sveltekit-superforms/adapters";
+import { AgregarSucursalEsquema } from "$lib/esquemas/entidades/sucursalEsquemas.js";
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
 	if (!locals.userId) redirect(302, "/auth/iniciar-sesion");
 
 	const respuestaSucursales = await fetch(
 		"http://localhost:8000/api/sucursal/buscar",
-		{
-			method: "GET",
-		},
 	);
 	const resultadoSucursales = await respuestaSucursales.json();
 	let sucursales = resultadoSucursales.datos;
 
-	const respuestaBancos = await fetch(
-		"http://localhost:8000/api/banco/buscar",
-		{
-			method: "GET",
-		},
-	);
+	const respuestaBancos = await fetch("http://localhost:8000/api/banco/buscar");
 	const resultadoBancos = await respuestaBancos.json();
 	let bancos = resultadoBancos.datos;
 
@@ -37,17 +30,32 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 	const resultadoProveedores = await respuestaProveedores.json();
 	let proveedores = resultadoProveedores.datos;
 
+	const respuestaUsuarios = await fetch(
+		"http://localhost:8000/api/usuarios/buscar",
+	);
+	const resultadoUsuarios = await respuestaUsuarios.json();
+	let usuarios = resultadoUsuarios.datos;
+
+	const respuestaDomicilios = await fetch(
+		"http://localhost:8000/api/domicilio/buscar",
+	);
+	const resultadoDomicilios = await respuestaDomicilios.json();
+	let domicilios = resultadoDomicilios.datos;
+
 	return {
 		form: await superValidate(zod(AgregarPolizaEsquema)),
+		formSucursal: await superValidate(zod(AgregarSucursalEsquema)),
 		sucursales,
 		bancos,
 		cuentas,
 		proveedores,
+		usuarios,
+		domicilios,
 	};
 };
 
 export const actions: Actions = {
-	default: async ({ fetch, request }) => {
+	agregar_poliza: async ({ fetch, request }) => {
 		const form = await superValidate(request, zod(AgregarPolizaEsquema));
 		if (!form.valid) {
 			return fail(400, {
@@ -70,7 +78,6 @@ export const actions: Actions = {
 		}
 
 		delete formAuxiliar.numeroDetalles;
-		console.info(JSON.stringify(formAuxiliar));
 
 		const respuesta = await fetch("http://localhost:8000/api/poliza/nueva", {
 			method: "POST",
@@ -88,5 +95,30 @@ export const actions: Actions = {
 		}
 
 		redirect(302, "/polizas/ver-todas");
+	},
+	agregarSucursal: async ({ fetch, request }) => {
+		const form = await superValidate(request, zod(AgregarSucursalEsquema));
+		if (!form.valid) {
+			return fail(400, {
+				form,
+			});
+		}
+		const respuesta = await fetch("http://localhost:8000/api/sucursal/nueva", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(form.data),
+			credentials: "include",
+		});
+		const resultado = await respuesta.json();
+
+		if (!respuesta.ok) {
+			const error = await respuesta.json();
+			setError(form, "general", error.mensaje);
+			return message(form, error.mensaje);
+		}
+
+		return { form, nuevaSucursal: resultado.datos };
 	},
 };

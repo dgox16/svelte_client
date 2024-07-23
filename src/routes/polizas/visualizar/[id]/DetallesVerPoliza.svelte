@@ -3,8 +3,8 @@
     import * as Dialog from "$lib/components/ui/dialog/index.js";
     import { buttonVariants } from "$lib/components/ui/button/index.js";
     import TablaDetallesVerPoliza from "./TablaDetallesVerPoliza.svelte";
-    import FormularioAgregarDetallePoliza from "$lib/formularios/polizas/visualizar/FormularioAgregarDetallePoliza.svelte";
     import type { DetallePoliza } from "$lib/modelos/polizas/detallePoliza";
+    import FormularioAgregarDetallePoliza from "./FormularioAgregarDetallePoliza.svelte";
 
     export let detallesPoliza: Array<DetallePoliza>;
     export let formD;
@@ -12,9 +12,9 @@
     export let proveedores;
 
     let abrirFormulario = false;
-    function agregarDetalle(nuevo_detalle: DetallePoliza) {
+    const agregarDetalle = (nuevo_detalle: DetallePoliza) => {
         detallesPoliza = [...detallesPoliza, nuevo_detalle];
-    }
+    };
 </script>
 
 <Card.Root class="mt-7">
