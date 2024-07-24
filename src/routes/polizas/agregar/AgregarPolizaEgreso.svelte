@@ -94,7 +94,7 @@
                                 <Dialog.Content class="sm:max-w-[425px]">
                                     <Dialog.Header>
                                         <Dialog.Title
-                                            >Agregar nueva sucursal</Dialog.Title
+                                            >Agregar nuevo banco</Dialog.Title
                                         >
                                         <Dialog.Description>
                                             Completa los campos siguientes.
