@@ -23,6 +23,7 @@
 
     let formD: SuperValidated<Infer<EditarPolizaFormType>> = data.form;
     let formDSucursal = data.formSucursal;
+    let formDBanco = data.formBanco;
 
     const sucursales = data.sucursales;
     const bancos = data.bancos;
@@ -60,7 +61,7 @@
             />
 
             {#if mostrarPolizaEgreso}
-                <EditarPolizaEgreso {form} {bancos} />
+                <EditarPolizaEgreso {form} {bancos} {formDBanco} />
             {/if}
 
             {#if $message}

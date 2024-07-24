@@ -8,7 +8,6 @@
         ivaDetallePoliza,
         type Cuenta,
         type DetallePoliza,
-        type Proveedor,
     } from "$lib/modelos/polizas/detallePoliza";
     import {
         AgregarDetallePolizaEsquema,
@@ -21,6 +20,7 @@
     } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
     import { createEventDispatcher } from "svelte";
+    import type { Proveedor } from "$lib/modelos/entidades/proveedores";
 
     export let formD: SuperValidated<Infer<AgregarDetallePolizaFormType>>;
     export let cuentas: Array<Cuenta>;

@@ -5,6 +5,7 @@ import { EditarPolizaEsquema } from "$lib/esquemas/polizas/polizasEsquemas.js";
 import { zod } from "sveltekit-superforms/adapters";
 import type { Poliza } from "$lib/modelos/polizas/polizaBasica.js";
 import { AgregarSucursalEsquema } from "$lib/esquemas/entidades/sucursalEsquemas.js";
+import { AgregarBancoEsquema } from "$lib/esquemas/entidades/bancoEsquemas.js";
 
 export const load: PageServerLoad = async ({ locals, fetch, params }) => {
 	if (!locals.userId) redirect(302, "/auth/iniciar-sesion");
@@ -56,6 +57,7 @@ export const load: PageServerLoad = async ({ locals, fetch, params }) => {
 	return {
 		form: await superValidate(formLlenado, zod(EditarPolizaEsquema)),
 		formSucursal: await superValidate(zod(AgregarSucursalEsquema)),
+		formBanco: await superValidate(zod(AgregarBancoEsquema)),
 		esEgreso: poliza.tipo == "Egreso",
 		sucursales,
 		bancos,
@@ -122,5 +124,31 @@ export const actions: Actions = {
 		}
 
 		return { form, nuevaSucursal: resultado.datos };
+	},
+
+	agregarBanco: async ({ fetch, request }) => {
+		const form = await superValidate(request, zod(AgregarBancoEsquema));
+		if (!form.valid) {
+			return fail(400, {
+				form,
+			});
+		}
+		const respuesta = await fetch("http://localhost:8000/api/banco/nuevo", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(form.data),
+			credentials: "include",
+		});
+		const resultado = await respuesta.json();
+
+		if (!respuesta.ok) {
+			const error = await respuesta.json();
+			setError(form, "general", error.mensaje);
+			return message(form, error.mensaje);
+		}
+
+		return { form, nuevoBanco: resultado.datos };
 	},
 };

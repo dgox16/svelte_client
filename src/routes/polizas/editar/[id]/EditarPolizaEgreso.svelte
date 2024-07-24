@@ -1,12 +1,18 @@
 <script lang="ts">
+    import * as Dialog from "$lib/components/ui/dialog/index.js";
     import * as Form from "$lib/components/ui/form";
     import * as Select from "$lib/components/ui/select";
     import Input from "$lib/components/ui/input/input.svelte";
     import * as Card from "$lib/components/ui/card/index.js";
-    import type { Infer, SuperForm } from "sveltekit-superforms";
+    import type { Infer, SuperForm, SuperValidated } from "sveltekit-superforms";
     import type { EditarPolizaFormType } from "$lib/esquemas/polizas/polizasEsquemas";
+    import type { AgregarBancoFormType } from "$lib/esquemas/entidades/bancoEsquemas";
+    import { Plus } from "svelte-radix";
+    import { buttonVariants } from "$lib/components/ui/button";
+    import FormularioAgregarBanco from "$lib/formularios/entidades/FormularioAgregarBanco.svelte";
 
     export let form: SuperForm<Infer<EditarPolizaFormType>>;
+    export let formDBanco: SuperValidated<Infer<AgregarBancoFormType>>;
     export let bancos: Array<{
         id_banco: number;
         nombre: string;
@@ -22,6 +28,11 @@
               value: $formDatos.poliza_egreso?.banco,
           }
         : undefined;
+
+    const agregarBanco = (nuevoBanco) => {
+        bancos = [...bancos, nuevoBanco];
+    };
+    let abrirFormularioBanco = false;
 </script>
 
 <Card.Root>
@@ -43,29 +54,57 @@
             <Form.Field {form} name="poliza_egreso.banco">
                 <Form.Control let:attrs>
                     <Form.Label>Banco</Form.Label>
-                    <Select.Root
-                        selected={bancoSeleccionado}
-                        onSelectedChange={(v) => {
-                            v &&
-                                ($formDatos.poliza_egreso.banco = Number(
-                                    v.value,
-                                ));
-                        }}
-                    >
-                        <Select.Trigger {...attrs}>
-                            <Select.Value placeholder="Banco" />
-                        </Select.Trigger>
-                        <Select.Content>
-                            {#each bancos as banco}
-                                <Select.Item
-                                    value={banco.id_banco}
-                                    label={banco.nombre}
+                    <div class="flex flex-row">
+                        <Select.Root
+                            selected={bancoSeleccionado}
+                            onSelectedChange={(v) => {
+                                v &&
+                                    ($formDatos.poliza_egreso.banco = Number(
+                                        v.value,
+                                    ));
+                            }}
+                        >
+                            <Select.Trigger {...attrs}>
+                                <Select.Value placeholder="Banco" />
+                            </Select.Trigger>
+                            <Select.Content>
+                                {#each bancos as banco}
+                                    <Select.Item
+                                        value={banco.id_banco}
+                                        label={banco.nombre}
+                                    >
+                                        {banco.nombre}
+                                    </Select.Item>
+                                {/each}
+                            </Select.Content>
+                        </Select.Root>
+                        <div class="ml-3">
+                            <Dialog.Root bind:open={abrirFormularioBanco}>
+                                <Dialog.Trigger
+                                    class={buttonVariants({
+                                        variant: "default",
+                                        size: "icon",
+                                    })}><Plus class="size-5" /></Dialog.Trigger
                                 >
-                                    {banco.nombre}
-                                </Select.Item>
-                            {/each}
-                        </Select.Content>
-                    </Select.Root>
+                                <Dialog.Content class="sm:max-w-[425px]">
+                                    <Dialog.Header>
+                                        <Dialog.Title
+                                            >Agregar nuevo banco</Dialog.Title
+                                        >
+                                        <Dialog.Description>
+                                            Completa los campos siguientes.
+                                        </Dialog.Description>
+                                    </Dialog.Header>
+                                    <FormularioAgregarBanco
+                                        {formDBanco}
+                                        bind:abrirFormularioBanco
+                                        on:agregar-banco={(event) =>
+                                            agregarBanco(event.detail)}
+                                    />
+                                </Dialog.Content>
+                            </Dialog.Root>
+                        </div>
+                    </div>
                 </Form.Control>
                 <Form.FieldErrors />
             </Form.Field>
