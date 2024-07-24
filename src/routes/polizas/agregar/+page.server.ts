@@ -57,7 +57,7 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 };
 
 export const actions: Actions = {
-	agregar_poliza: async ({ fetch, request }) => {
+	agregarPoliza: async ({ fetch, request }) => {
 		const form = await superValidate(request, zod(AgregarPolizaEsquema));
 		if (!form.valid) {
 			return fail(400, {
