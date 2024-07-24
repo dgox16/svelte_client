@@ -25,6 +25,7 @@
 
     let formD: SuperValidated<Infer<AgregarPolizaFormType>> = data.form;
     let formDSucursal = data.formSucursal;
+    let formDBanco = data.formBanco;
 
     const sucursales = data.sucursales;
     const bancos = data.bancos;
@@ -82,7 +83,7 @@
             />
 
             {#if mostrarPolizaEgreso}
-                <AgregarPolizaEgreso {form} {bancos} />
+                <AgregarPolizaEgreso {form} {bancos} {formDBanco} />
             {/if}
 
             <div class="flex justify-center my-4">
