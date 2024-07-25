@@ -10,10 +10,7 @@ export const AgregarProveedorEsquema = z.object({
 	nombre: z.string().min(1, "Coloca un nombre"),
 	domicilio: z.number().int().gt(0, "Selecciona una opcion"),
 	rfc: z.string().min(1, "Coloca un RFC invalido").max(13, "Formato invalido"),
-	curp: z
-		.string()
-		.min(1, "Coloca una CURP invalida")
-		.max(18, "Formato invalido"),
+	curp: z.string().length(18, "Formato invalido"),
 	telefono: z
 		.string()
 		.min(1, "Coloca un numero invalido")
@@ -30,9 +27,9 @@ export const AgregarProveedorEsquema = z.object({
 		)
 		.default("Otros"),
 	regimen: z.string().min(1, "Agregue un regimen"),
-	pais_residencia: z.number().int(),
-	pais_nacimiento: z.number().int(),
-	banco: z.number().int(),
+	pais_residencia: z.number().int().gt(0, "Seleccione un pais"),
+	pais_nacimiento: z.number().int().gt(0, "Seleccione un pais"),
+	banco: z.number().int().gt(0, "Seleccione un banco"),
 	cuenta_clabe: z.string().min(1),
 });
 export type AgregarProveedorFormType = typeof AgregarProveedorEsquema;

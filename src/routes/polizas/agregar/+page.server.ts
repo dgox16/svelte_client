@@ -155,4 +155,32 @@ export const actions: Actions = {
 
 		return { form, nuevoBanco: resultado.datos };
 	},
+	agregarProveedor: async ({ fetch, request }) => {
+		const form = await superValidate(request, zod(AgregarProveedorEsquema));
+		if (!form.valid) {
+			console.info("Hola");
+			return fail(400, {
+				form,
+			});
+		}
+		const respuesta = await fetch("http://localhost:8000/api/proveedor/nuevo", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(form.data),
+			credentials: "include",
+		});
+
+		if (!respuesta.ok) {
+			const error = await respuesta.json();
+			console.info(error);
+			setError(form, "general", error.mensaje);
+			return message(form, error.mensaje);
+		}
+
+		const resultado = await respuesta.json();
+
+		return { form, nuevoProveedor: resultado.datos };
+	},
 };

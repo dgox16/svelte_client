@@ -226,7 +226,7 @@
                                                     /></Dialog.Trigger
                                                 >
                                                 <Dialog.Content
-                                                    class="sm:max-w-[425px]"
+                                                    class="sm:max-w-[725px]"
                                                 >
                                                     <Dialog.Header>
                                                         <Dialog.Title
@@ -242,7 +242,6 @@
                                                         {formDProveedor}
                                                         {bancos}
                                                         {domicilios}
-                                                        {paises}
                                                         bind:abrirFormularioProveedor
                                                         on:agregar-proveedor={(
                                                             event,

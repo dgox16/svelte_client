@@ -4,7 +4,7 @@
     import { ExclamationTriangle } from "svelte-radix";
     import { Input } from "$lib/components/ui/input";
     import * as Alert from "$lib/components/ui/alert/index.js";
-    import {
+    import SuperDebug, {
         type SuperValidated,
         type Infer,
         superForm,
@@ -26,12 +26,12 @@
     export let abrirFormularioProveedor;
     export let bancos;
     export let domicilios;
-    let paises = [];
+    let paisesNacimiento = [];
+    let paisesResidencia = [];
 
     const form = superForm(formDProveedor, {
         validators: zodClient(AgregarProveedorEsquema),
         dataType: "json",
-
         onResult({ result }) {
             if (result.type === "success") {
                 dispatch("agregar-proveedor", result.data?.nuevoProveedor);
@@ -65,7 +65,7 @@
 
     $: paisResidenciaSeleccionado = $formDatos.pais_residencia
         ? {
-              label: paises.find(
+              label: paisesResidencia.find(
                   (pais) => pais.id_pais === $formDatos.pais_residencia,
               )?.nombre,
               value: $formDatos.pais_residencia,
@@ -74,7 +74,7 @@
 
     $: paisNacimientoSeleccionado = $formDatos.pais_nacimiento
         ? {
-              label: paises.find(
+              label: paisesNacimiento.find(
                   (pais) => pais.id_pais === $formDatos.pais_nacimiento,
               )?.nombre,
               value: $formDatos.pais_nacimiento,
@@ -96,25 +96,31 @@
             `http://localhost:8000/api/pais/buscar?nombre=${event.target.value}&limite=7`,
         );
         const resultadoPaises = await respuestaPaises.json();
-        paises = resultadoPaises.datos;
+        paisesNacimiento = resultadoPaises.datos;
+    };
+
+    const buscarPaisResidencia = async (event) => {
+        const respuestaPaises = await fetch(
+            `http://localhost:8000/api/pais/buscar?nombre=${event.target.value}&limite=7`,
+        );
+        const resultadoPaises = await respuestaPaises.json();
+        paisesResidencia = resultadoPaises.datos;
     };
 </script>
 
-<form method="POST" use:enhance action="?/agregarBanco">
-    <Form.Field {form} name="nombre">
-        <Form.Control let:attrs>
-            <div class="py-2 flex flex-row items-center">
-                <Form.Label class="mr-5 mt-2">Nombre:</Form.Label>
+<form method="POST" use:enhance action="?/agregarProveedor">
+    <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+        <Form.Field {form} name="nombre">
+            <Form.Control let:attrs>
+                <Form.Label>Nombre</Form.Label>
                 <Input {...attrs} bind:value={$formDatos.nombre} />
-            </div>
-        </Form.Control>
-        <Form.FieldErrors />
-    </Form.Field>
+            </Form.Control>
+            <Form.FieldErrors />
+        </Form.Field>
 
-    <Form.Field {form} name="domicilio">
-        <Form.Control let:attrs>
-            <div class="py-2 flex flex-row items-center">
-                <Form.Label class="mr-5 mt-2">Domicilio:</Form.Label>
+        <Form.Field {form} name="domicilio">
+            <Form.Control let:attrs>
+                <Form.Label>Domicilio</Form.Label>
                 <Select.Root
                     selected={domicilioSeleccionado}
                     onSelectedChange={(v) => {
@@ -134,45 +140,37 @@
                         {/each}
                     </Select.Content>
                 </Select.Root>
-            </div>
-        </Form.Control>
-        <Form.FieldErrors />
-    </Form.Field>
+            </Form.Control>
+            <Form.FieldErrors />
+        </Form.Field>
 
-    <Form.Field {form} name="rfc">
-        <Form.Control let:attrs>
-            <div class="py-2 flex flex-row items-center">
-                <Form.Label class="mr-5 mt-2">RFC:</Form.Label>
+        <Form.Field {form} name="rfc">
+            <Form.Control let:attrs>
+                <Form.Label>RFC</Form.Label>
                 <Input {...attrs} bind:value={$formDatos.rfc} />
-            </div>
-        </Form.Control>
-        <Form.FieldErrors />
-    </Form.Field>
+            </Form.Control>
+            <Form.FieldErrors />
+        </Form.Field>
 
-    <Form.Field {form} name="curp">
-        <Form.Control let:attrs>
-            <div class="py-2 flex flex-row items-center">
-                <Form.Label class="mr-5 mt-2">Curp:</Form.Label>
+        <Form.Field {form} name="curp">
+            <Form.Control let:attrs>
+                <Form.Label>Curp</Form.Label>
                 <Input {...attrs} bind:value={$formDatos.curp} />
-            </div>
-        </Form.Control>
-        <Form.FieldErrors />
-    </Form.Field>
+            </Form.Control>
+            <Form.FieldErrors />
+        </Form.Field>
 
-    <Form.Field {form} name="telefono">
-        <Form.Control let:attrs>
-            <div class="py-2 flex flex-row items-center">
-                <Form.Label class="mr-5 mt-2">Telefono:</Form.Label>
+        <Form.Field {form} name="telefono">
+            <Form.Control let:attrs>
+                <Form.Label>Telefono</Form.Label>
                 <Input {...attrs} bind:value={$formDatos.telefono} />
-            </div>
-        </Form.Control>
-        <Form.FieldErrors />
-    </Form.Field>
+            </Form.Control>
+            <Form.FieldErrors />
+        </Form.Field>
 
-    <Form.Field {form} name="tipo">
-        <Form.Control let:attrs>
-            <div class="py-2 flex flex-row items-center">
-                <Form.Label class="mr-5 mt-2">Tipo:</Form.Label>
+        <Form.Field {form} name="tipo">
+            <Form.Control let:attrs>
+                <Form.Label>Tipo</Form.Label>
                 <Select.Root
                     selected={tipoSeleccionado}
                     onSelectedChange={(v) => {
@@ -190,15 +188,13 @@
                         {/each}
                     </Select.Content>
                 </Select.Root>
-            </div>
-        </Form.Control>
-        <Form.FieldErrors />
-    </Form.Field>
+            </Form.Control>
+            <Form.FieldErrors />
+        </Form.Field>
 
-    <Form.Field {form} name="operacion">
-        <Form.Control let:attrs>
-            <div class="py-2 flex flex-row items-center">
-                <Form.Label class="mr-5 mt-2">Operacion:</Form.Label>
+        <Form.Field {form} name="operacion">
+            <Form.Control let:attrs>
+                <Form.Label>Operacion</Form.Label>
                 <Select.Root
                     selected={operacionSeleccionada}
                     onSelectedChange={(v) => {
@@ -214,55 +210,21 @@
                         {/each}
                     </Select.Content>
                 </Select.Root>
-            </div>
-        </Form.Control>
-        <Form.FieldErrors />
-    </Form.Field>
+            </Form.Control>
+            <Form.FieldErrors />
+        </Form.Field>
 
-    <Form.Field {form} name="regimen">
-        <Form.Control let:attrs>
-            <div class="py-2 flex flex-row items-center">
-                <Form.Label class="mr-5 mt-2">Regimen:</Form.Label>
+        <Form.Field {form} name="regimen">
+            <Form.Control let:attrs>
+                <Form.Label>Regimen</Form.Label>
                 <Input {...attrs} bind:value={$formDatos.regimen} />
-            </div>
-        </Form.Control>
-        <Form.FieldErrors />
-    </Form.Field>
+            </Form.Control>
+            <Form.FieldErrors />
+        </Form.Field>
 
-    <Input placeholder="Busque el pais" on:input={buscarPaisNacimiento} />
-
-    <Form.Field {form} name="pais_nacimiento">
-        <Form.Control let:attrs>
-            <div class="py-2 flex flex-row items-center">
-                <Form.Label class="mr-5 mt-2">Pais nacimiento:</Form.Label>
-                <Select.Root
-                    selected={paisNacimientoSeleccionado}
-                    onSelectedChange={(v) => {
-                        v && ($formDatos.pais_nacimiento = Number(v.value));
-                    }}
-                    preventScroll={false}
-                >
-                    <Select.Trigger {...attrs}>
-                        <Select.Value placeholder="Selecciona un pais" />
-                    </Select.Trigger>
-                    <Select.Content>
-                        {#each paises as pais}
-                            <Select.Item
-                                value={pais.id_pais}
-                                label={pais.nombre}>{pais.nombre}</Select.Item
-                            >
-                        {/each}
-                    </Select.Content>
-                </Select.Root>
-            </div>
-        </Form.Control>
-        <Form.FieldErrors />
-    </Form.Field>
-
-    <Form.Field {form} name="banco">
-        <Form.Control let:attrs>
-            <div class="py-2 flex flex-row items-center">
-                <Form.Label class="mr-5 mt-2">Banco:</Form.Label>
+        <Form.Field {form} name="banco">
+            <Form.Control let:attrs>
+                <Form.Label>Banco:</Form.Label>
                 <Select.Root
                     selected={bancoSeleccionado}
                     onSelectedChange={(v) => {
@@ -270,7 +232,7 @@
                     }}
                 >
                     <Select.Trigger {...attrs}>
-                        <Select.Value placeholder="Selecciona un encargado" />
+                        <Select.Value placeholder="Selecciona un banco" />
                     </Select.Trigger>
                     <Select.Content>
                         {#each bancos as banco}
@@ -281,10 +243,91 @@
                         {/each}
                     </Select.Content>
                 </Select.Root>
-            </div>
-        </Form.Control>
-        <Form.FieldErrors />
-    </Form.Field>
+            </Form.Control>
+            <Form.FieldErrors />
+        </Form.Field>
+
+        <Form.Field {form} name="cuenta_clabe">
+            <Form.Control let:attrs>
+                <Form.Label>Clabe</Form.Label>
+                <Input {...attrs} bind:value={$formDatos.cuenta_clabe} />
+            </Form.Control>
+            <Form.FieldErrors />
+        </Form.Field>
+
+        <Form.Field {form} name="pais_nacimiento">
+            <Form.Control let:attrs>
+                <div>
+                    <Form.Label>Pais nacimiento</Form.Label>
+                    <Form.Description
+                        >Busque su pais y luego seleccionelo</Form.Description
+                    >
+                    <Input
+                        placeholder="Busque el pais"
+                        on:input={buscarPaisNacimiento}
+                        class="my-2"
+                    />
+                    <Select.Root
+                        selected={paisNacimientoSeleccionado}
+                        onSelectedChange={(v) => {
+                            v && ($formDatos.pais_nacimiento = Number(v.value));
+                        }}
+                        preventScroll={false}
+                    >
+                        <Select.Trigger {...attrs}>
+                            <Select.Value placeholder="Selecciona un pais" />
+                        </Select.Trigger>
+                        <Select.Content>
+                            {#each paisesNacimiento as pais}
+                                <Select.Item
+                                    value={pais.id_pais}
+                                    label={pais.nombre}
+                                    >{pais.nombre}</Select.Item
+                                >
+                            {/each}
+                        </Select.Content>
+                    </Select.Root>
+                </div>
+            </Form.Control>
+            <Form.FieldErrors />
+        </Form.Field>
+
+        <Form.Field {form} name="pais_residencia">
+            <Form.Control let:attrs>
+                <div>
+                    <Form.Label>Pais residencia</Form.Label>
+                    <Form.Description
+                        >Busque su pais y luego seleccionelo</Form.Description
+                    >
+                    <Input
+                        placeholder="Busque el pais"
+                        on:input={buscarPaisResidencia}
+                        class="my-2"
+                    />
+                    <Select.Root
+                        selected={paisResidenciaSeleccionado}
+                        onSelectedChange={(v) => {
+                            v && ($formDatos.pais_residencia = Number(v.value));
+                        }}
+                    >
+                        <Select.Trigger {...attrs}>
+                            <Select.Value placeholder="Selecciona un pais" />
+                        </Select.Trigger>
+                        <Select.Content>
+                            {#each paisesResidencia as pais}
+                                <Select.Item
+                                    value={pais.id_pais}
+                                    label={pais.nombre}
+                                    >{pais.nombre}</Select.Item
+                                >
+                            {/each}
+                        </Select.Content>
+                    </Select.Root>
+                </div>
+            </Form.Control>
+            <Form.FieldErrors />
+        </Form.Field>
+    </div>
 
     {#if $message}
         <Alert.Root variant="destructive" class="mb-1">
@@ -293,6 +336,7 @@
             <Alert.Description>{$message}</Alert.Description>
         </Alert.Root>
     {/if}
+    <SuperDebug data={formDatos} />
 
     <Form.Button class="w-full font-semibold mt-2">AGREGAR</Form.Button>
 </form>
