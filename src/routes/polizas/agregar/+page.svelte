@@ -26,6 +26,7 @@
     let formD: SuperValidated<Infer<AgregarPolizaFormType>> = data.form;
     let formDSucursal = data.formSucursal;
     let formDBanco = data.formBanco;
+    let formDProveedor = data.formProveedor;
 
     const sucursales = data.sucursales;
     const bancos = data.bancos;
@@ -33,6 +34,7 @@
     const proveedores = data.proveedores;
     const usuarios = data.usuarios;
     const domicilios = data.domicilios;
+    const paises = data.paises;
 
     const form = superForm(formD, {
         validators: zodClient(AgregarPolizaEsquema),
@@ -103,6 +105,10 @@
             {#if mostrarDetalles}
                 <AgregarDetallesPoliza
                     {form}
+                    {formDProveedor}
+                    {bancos}
+                    {domicilios}
+                    {paises}
                     {cuentas}
                     {proveedores}
                     bind:numeroDetalles

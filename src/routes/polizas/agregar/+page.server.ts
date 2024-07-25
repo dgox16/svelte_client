@@ -5,6 +5,7 @@ import { AgregarPolizaEsquema } from "$lib/esquemas/polizas/polizasEsquemas.js";
 import { zod } from "sveltekit-superforms/adapters";
 import { AgregarSucursalEsquema } from "$lib/esquemas/entidades/sucursalEsquemas.js";
 import { AgregarBancoEsquema } from "$lib/esquemas/entidades/bancoEsquemas.js";
+import { AgregarProveedorEsquema } from "$lib/esquemas/entidades/proveedorEsquemas.js";
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
 	if (!locals.userId) redirect(302, "/auth/iniciar-sesion");
@@ -43,16 +44,22 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 	const resultadoDomicilios = await respuestaDomicilios.json();
 	let domicilios = resultadoDomicilios.datos;
 
+	const respuestaPaises = await fetch("http://localhost:8000/api/pais/buscar");
+	const resultadoPaises = await respuestaPaises.json();
+	let paises = resultadoPaises.datos;
+
 	return {
 		form: await superValidate(zod(AgregarPolizaEsquema)),
 		formSucursal: await superValidate(zod(AgregarSucursalEsquema)),
 		formBanco: await superValidate(zod(AgregarBancoEsquema)),
+		formProveedor: await superValidate(zod(AgregarProveedorEsquema)),
 		sucursales,
 		bancos,
 		cuentas,
 		proveedores,
 		usuarios,
 		domicilios,
+		paises,
 	};
 };
 

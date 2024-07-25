@@ -1,17 +1,30 @@
 <script lang="ts">
+    import * as Dialog from "$lib/components/ui/dialog/index.js";
     import * as Form from "$lib/components/ui/form";
     import * as Select from "$lib/components/ui/select";
     import * as Card from "$lib/components/ui/card/index.js";
-    import type { Infer, SuperForm } from "sveltekit-superforms";
+    import type {
+        Infer,
+        SuperForm,
+        SuperValidated,
+    } from "sveltekit-superforms";
     import type { AgregarPolizaFormType } from "$lib/esquemas/polizas/polizasEsquemas";
     import Input from "$lib/components/ui/input/input.svelte";
     import Button from "$lib/components/ui/button/button.svelte";
     import { toast } from "svelte-sonner";
     import type { Cuenta } from "$lib/modelos/polizas/detallePoliza";
     import type { Proveedor } from "$lib/modelos/entidades/proveedores";
+    import { buttonVariants } from "$lib/components/ui/button";
+    import { Plus } from "svelte-radix";
+    import FormularioAgregarProveedor from "$lib/formularios/entidades/FormularioAgregarProveedor.svelte";
+    import type { AgregarProveedorFormType } from "$lib/esquemas/entidades/proveedorEsquemas";
 
     export let form: SuperForm<Infer<AgregarPolizaFormType>>;
+    export let formDProveedor: SuperValidated<Infer<AgregarProveedorFormType>>;
     export let cuentas: Array<Cuenta>;
+    export let bancos;
+    export let paises;
+    export let domicilios;
     export let proveedores: Array<Proveedor>;
     export let numeroDetalles: number;
     export let llenarDetalles;
@@ -63,6 +76,10 @@
             });
         }
     };
+    const agregarProveedor = (nuevoProveedor) => {
+        proveedores = [...proveedores, nuevoProveedor];
+    };
+    let abrirFormularioProveedor = false;
 </script>
 
 <Card.Root>
@@ -164,30 +181,80 @@
                             >
                                 <Form.Control let:attrs>
                                     <Form.Label>Proveedor</Form.Label>
-                                    <Select.Root
-                                        selected={proveedoresSeleccionados[i]}
-                                        onSelectedChange={(v) => {
-                                            v &&
-                                                ($formDatos.detalles_poliza[
-                                                    i
-                                                ].proveedor = Number(v.value));
-                                        }}
-                                    >
-                                        <Select.Trigger {...attrs}>
-                                            <Select.Value
-                                                placeholder="Selecciona el proveedor"
-                                            />
-                                        </Select.Trigger>
-                                        <Select.Content>
-                                            {#each proveedores as proveedor}
-                                                <Select.Item
-                                                    value={proveedor.id_proveedor}
-                                                    label={proveedor.nombre}
-                                                    >{proveedor.nombre}</Select.Item
+
+                                    <div class="flex flex-row">
+                                        <Select.Root
+                                            selected={proveedoresSeleccionados[
+                                                i
+                                            ]}
+                                            onSelectedChange={(v) => {
+                                                v &&
+                                                    ($formDatos.detalles_poliza[
+                                                        i
+                                                    ].proveedor = Number(
+                                                        v.value,
+                                                    ));
+                                            }}
+                                        >
+                                            <Select.Trigger {...attrs}>
+                                                <Select.Value
+                                                    placeholder="Selecciona el proveedor"
+                                                />
+                                            </Select.Trigger>
+                                            <Select.Content>
+                                                {#each proveedores as proveedor}
+                                                    <Select.Item
+                                                        value={proveedor.id_proveedor}
+                                                        label={proveedor.nombre}
+                                                        >{proveedor.nombre}</Select.Item
+                                                    >
+                                                {/each}
+                                            </Select.Content>
+                                        </Select.Root>
+
+                                        <div class="ml-3">
+                                            <Dialog.Root
+                                                bind:open={abrirFormularioProveedor}
+                                            >
+                                                <Dialog.Trigger
+                                                    class={buttonVariants({
+                                                        variant: "default",
+                                                        size: "icon",
+                                                    })}
+                                                    ><Plus
+                                                        class="size-5"
+                                                    /></Dialog.Trigger
                                                 >
-                                            {/each}
-                                        </Select.Content>
-                                    </Select.Root>
+                                                <Dialog.Content
+                                                    class="sm:max-w-[425px]"
+                                                >
+                                                    <Dialog.Header>
+                                                        <Dialog.Title
+                                                            >Agregar nuevo
+                                                            proveedor</Dialog.Title
+                                                        >
+                                                        <Dialog.Description>
+                                                            Completa los campos
+                                                            siguientes.
+                                                        </Dialog.Description>
+                                                    </Dialog.Header>
+                                                    <FormularioAgregarProveedor
+                                                        {formDProveedor}
+                                                        {bancos}
+                                                        {domicilios}
+                                                        {paises}
+                                                        bind:abrirFormularioProveedor
+                                                        on:agregar-proveedor={(
+                                                            event,
+                                                        ) =>
+                                                            agregarProveedor(
+                                                                event.detail,
+                                                            )}
+                                                    />
+                                                </Dialog.Content>
+                                            </Dialog.Root>
+                                        </div>
+                                    </div>
                                 </Form.Control>
                                 <Form.FieldErrors />
                             </Form.ElementField>

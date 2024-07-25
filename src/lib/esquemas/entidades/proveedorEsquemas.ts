@@ -29,7 +29,7 @@ export const AgregarProveedorEsquema = z.object({
 			],
 		)
 		.default("Otros"),
-	regimen: z.string().min(1, "Agregue una regimen"),
+	regimen: z.string().min(1, "Agregue un regimen"),
 	pais_residencia: z.number().int(),
 	pais_nacimiento: z.number().int(),
 	banco: z.number().int(),
