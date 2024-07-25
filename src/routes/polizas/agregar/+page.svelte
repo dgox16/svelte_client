@@ -34,7 +34,6 @@
     const proveedores = data.proveedores;
     const usuarios = data.usuarios;
     const domicilios = data.domicilios;
-    const paises = data.paises;
 
     const form = superForm(formD, {
         validators: zodClient(AgregarPolizaEsquema),
@@ -108,7 +107,6 @@
                     {formDProveedor}
                     {bancos}
                     {domicilios}
-                    {paises}
                     {cuentas}
                     {proveedores}
                     bind:numeroDetalles

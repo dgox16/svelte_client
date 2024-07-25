@@ -44,10 +44,6 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 	const resultadoDomicilios = await respuestaDomicilios.json();
 	let domicilios = resultadoDomicilios.datos;
 
-	const respuestaPaises = await fetch("http://localhost:8000/api/pais/buscar");
-	const resultadoPaises = await respuestaPaises.json();
-	let paises = resultadoPaises.datos;
-
 	return {
 		form: await superValidate(zod(AgregarPolizaEsquema)),
 		formSucursal: await superValidate(zod(AgregarSucursalEsquema)),
@@ -59,7 +55,6 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 		proveedores,
 		usuarios,
 		domicilios,
-		paises,
 	};
 };
 

@@ -23,7 +23,6 @@
     export let formDProveedor: SuperValidated<Infer<AgregarProveedorFormType>>;
     export let cuentas: Array<Cuenta>;
     export let bancos;
-    export let paises;
     export let domicilios;
     export let proveedores: Array<Proveedor>;
     export let numeroDetalles: number;

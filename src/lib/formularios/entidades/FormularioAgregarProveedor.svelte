@@ -4,7 +4,7 @@
     import { ExclamationTriangle } from "svelte-radix";
     import { Input } from "$lib/components/ui/input";
     import * as Alert from "$lib/components/ui/alert/index.js";
-    import SuperDebug, {
+    import {
         type SuperValidated,
         type Infer,
         superForm,
@@ -336,7 +336,6 @@
             <Alert.Description>{$message}</Alert.Description>
         </Alert.Root>
     {/if}
-    <SuperDebug data={formDatos} />
 
     <Form.Button class="w-full font-semibold mt-2">AGREGAR</Form.Button>
 </form>
