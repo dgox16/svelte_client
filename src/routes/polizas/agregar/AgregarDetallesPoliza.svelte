@@ -12,15 +12,18 @@
     import Input from "$lib/components/ui/input/input.svelte";
     import Button from "$lib/components/ui/button/button.svelte";
     import { toast } from "svelte-sonner";
-    import type { Cuenta } from "$lib/modelos/polizas/detallePoliza";
+    import type { Cuenta } from "$lib/modelos/entidades/cuentas";
     import type { Proveedor } from "$lib/modelos/entidades/proveedores";
     import { buttonVariants } from "$lib/components/ui/button";
     import { Plus } from "svelte-radix";
     import FormularioAgregarProveedor from "$lib/formularios/entidades/FormularioAgregarProveedor.svelte";
     import type { AgregarProveedorFormType } from "$lib/esquemas/entidades/proveedorEsquemas";
+    import FormularioAgregarCuenta from "$lib/formularios/entidades/FormularioAgregarCuenta.svelte";
+    import type { AgregarCuentaFormType } from "$lib/esquemas/entidades/cuentaEsquemas";
 
     export let form: SuperForm<Infer<AgregarPolizaFormType>>;
     export let formDProveedor: SuperValidated<Infer<AgregarProveedorFormType>>;
+    export let formDCuenta: SuperValidated<Infer<AgregarCuentaFormType>>;
     export let cuentas: Array<Cuenta>;
     export let bancos;
     export let domicilios;
@@ -75,10 +78,15 @@
             });
         }
     };
-    const agregarProveedor = (nuevoProveedor) => {
+    const agregarProveedor = (nuevoProveedor: Proveedor) => {
         proveedores = [...proveedores, nuevoProveedor];
     };
     let abrirFormularioProveedor = false;
+
+    const agregarCuenta = (nuevaCuenta: Cuenta) => {
+        cuentas = [...cuentas, nuevaCuenta];
+    };
+    let abrirFormularioCuenta = false;
 </script>
 
 <Card.Root>
@@ -111,30 +119,71 @@
                             >
                                 <Form.Control let:attrs>
                                     <Form.Label>Cuenta</Form.Label>
-                                    <Select.Root
-                                        selected={cuentasSeleccionadas[i]}
-                                        onSelectedChange={(v) => {
-                                            v &&
-                                                ($formDatos.detalles_poliza[
-                                                    i
-                                                ].cuenta = Number(v.value));
-                                        }}
-                                    >
-                                        <Select.Trigger {...attrs}>
-                                            <Select.Value
-                                                placeholder="Selecciona la cuenta"
-                                            />
-                                        </Select.Trigger>
-                                        <Select.Content>
-                                            {#each cuentas as cuenta}
-                                                <Select.Item
-                                                    value={cuenta.id_cuenta}
-                                                    label={cuenta.nombre}
-                                                    >{cuenta.nombre}</Select.Item
+                                    <div class="flex flex-row">
+                                        <Select.Root
+                                            selected={cuentasSeleccionadas[i]}
+                                            onSelectedChange={(v) => {
+                                                v &&
+                                                    ($formDatos.detalles_poliza[
+                                                        i
+                                                    ].cuenta = Number(v.value));
+                                            }}
+                                        >
+                                            <Select.Trigger {...attrs}>
+                                                <Select.Value
+                                                    placeholder="Selecciona la cuenta"
+                                                />
+                                            </Select.Trigger>
+                                            <Select.Content>
+                                                {#each cuentas as cuenta}
+                                                    <Select.Item
+                                                        value={cuenta.id_cuenta}
+                                                        label={cuenta.nombre}
+                                                        >{cuenta.nombre}</Select.Item
+                                                    >
+                                                {/each}
+                                            </Select.Content>
+                                        </Select.Root>
+                                        <div class="ml-3">
+                                            <Dialog.Root
+                                                bind:open={abrirFormularioCuenta}
+                                            >
+                                                <Dialog.Trigger
+                                                    class={buttonVariants({
+                                                        variant: "default",
+                                                        size: "icon",
+                                                    })}
+                                                    ><Plus
+                                                        class="size-5"
+                                                    /></Dialog.Trigger
                                                 >
-                                            {/each}
-                                        </Select.Content>
-                                    </Select.Root>
+                                                <Dialog.Content
+                                                    class="sm:max-w-[725px]"
+                                                >
+                                                    <Dialog.Header>
+                                                        <Dialog.Title
+                                                            >Agregar nueva
+                                                            cuenta</Dialog.Title
+                                                        >
+                                                        <Dialog.Description>
+                                                            Completa los campos
+                                                            siguientes.
+                                                        </Dialog.Description>
+                                                    </Dialog.Header>
+                                                    <FormularioAgregarCuenta
+                                                        {formDCuenta}
+                                                        bind:abrirFormularioCuenta
+                                                        on:agregar-cuenta={(
+                                                            event,
+                                                        ) =>
+                                                            agregarCuenta(
+                                                                event.detail,
+                                                            )}
+                                                    />
+                                                </Dialog.Content>
+                                            </Dialog.Root>
+                                        </div>
+                                    </div>
                                 </Form.Control>
                                 <Form.FieldErrors />
                             </Form.ElementField>
@@ -210,7 +259,6 @@
                                                 {/each}
                                             </Select.Content>
                                         </Select.Root>
-
                                         <div class="ml-3">
                                             <Dialog.Root
                                                 bind:open={abrirFormularioProveedor}

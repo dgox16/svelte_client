@@ -27,6 +27,7 @@
     let formDSucursal = data.formSucursal;
     let formDBanco = data.formBanco;
     let formDProveedor = data.formProveedor;
+    let formDCuenta = data.formCuenta;
 
     const sucursales = data.sucursales;
     const bancos = data.bancos;
@@ -105,6 +106,7 @@
                 <AgregarDetallesPoliza
                     {form}
                     {formDProveedor}
+                    {formDCuenta}
                     {bancos}
                     {domicilios}
                     {cuentas}

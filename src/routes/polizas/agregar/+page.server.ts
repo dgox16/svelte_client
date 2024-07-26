@@ -6,6 +6,7 @@ import { zod } from "sveltekit-superforms/adapters";
 import { AgregarSucursalEsquema } from "$lib/esquemas/entidades/sucursalEsquemas.js";
 import { AgregarBancoEsquema } from "$lib/esquemas/entidades/bancoEsquemas.js";
 import { AgregarProveedorEsquema } from "$lib/esquemas/entidades/proveedorEsquemas.js";
+import { AgregarCuentaEsquema } from "$lib/esquemas/entidades/cuentaEsquemas.js";
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
 	if (!locals.userId) redirect(302, "/auth/iniciar-sesion");
@@ -49,6 +50,7 @@ export const load: PageServerLoad = async ({ locals, fetch }) => {
 		formSucursal: await superValidate(zod(AgregarSucursalEsquema)),
 		formBanco: await superValidate(zod(AgregarBancoEsquema)),
 		formProveedor: await superValidate(zod(AgregarProveedorEsquema)),
+		formCuenta: await superValidate(zod(AgregarCuentaEsquema)),
 		sucursales,
 		bancos,
 		cuentas,
@@ -115,13 +117,14 @@ export const actions: Actions = {
 			body: JSON.stringify(form.data),
 			credentials: "include",
 		});
-		const resultado = await respuesta.json();
 
 		if (!respuesta.ok) {
 			const error = await respuesta.json();
 			setError(form, "general", error.mensaje);
 			return message(form, error.mensaje);
 		}
+
+		const resultado = await respuesta.json();
 
 		return { form, nuevaSucursal: resultado.datos };
 	},
@@ -140,7 +143,6 @@ export const actions: Actions = {
 			body: JSON.stringify(form.data),
 			credentials: "include",
 		});
-		const resultado = await respuesta.json();
 
 		if (!respuesta.ok) {
 			const error = await respuesta.json();
@@ -148,12 +150,13 @@ export const actions: Actions = {
 			return message(form, error.mensaje);
 		}
 
+		const resultado = await respuesta.json();
+
 		return { form, nuevoBanco: resultado.datos };
 	},
 	agregarProveedor: async ({ fetch, request }) => {
 		const form = await superValidate(request, zod(AgregarProveedorEsquema));
 		if (!form.valid) {
-			console.info("Hola");
 			return fail(400, {
 				form,
 			});
@@ -169,7 +172,6 @@ export const actions: Actions = {
 
 		if (!respuesta.ok) {
 			const error = await respuesta.json();
-			console.info(error);
 			setError(form, "general", error.mensaje);
 			return message(form, error.mensaje);
 		}
@@ -177,5 +179,32 @@ export const actions: Actions = {
 		const resultado = await respuesta.json();
 
 		return { form, nuevoProveedor: resultado.datos };
+	},
+
+	agregarCuenta: async ({ fetch, request }) => {
+		const form = await superValidate(request, zod(AgregarCuentaEsquema));
+		if (!form.valid) {
+			return fail(400, {
+				form,
+			});
+		}
+		const respuesta = await fetch("http://localhost:8000/api/cuenta/nueva", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(form.data),
+			credentials: "include",
+		});
+
+		if (!respuesta.ok) {
+			const error = await respuesta.json();
+			setError(form, "general", error.mensaje);
+			return message(form, error.mensaje);
+		}
+
+		const resultado = await respuesta.json();
+
+		return { form, nuevaCuenta: resultado.datos };
 	},
 };

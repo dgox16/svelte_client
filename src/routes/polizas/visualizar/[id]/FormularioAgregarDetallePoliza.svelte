@@ -6,7 +6,6 @@
     import * as Alert from "$lib/components/ui/alert/index.js";
     import {
         ivaDetallePoliza,
-        type Cuenta,
         type DetallePoliza,
     } from "$lib/modelos/polizas/detallePoliza";
     import {
@@ -21,6 +20,7 @@
     import { zodClient } from "sveltekit-superforms/adapters";
     import { createEventDispatcher } from "svelte";
     import type { Proveedor } from "$lib/modelos/entidades/proveedores";
+    import type { Cuenta } from "$lib/modelos/entidades/cuentas";
 
     export let formD: SuperValidated<Infer<AgregarDetallePolizaFormType>>;
     export let cuentas: Array<Cuenta>;
