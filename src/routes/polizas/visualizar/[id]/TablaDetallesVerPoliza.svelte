@@ -31,6 +31,10 @@
     <div class="flex justify-center items-center my-6">
         <h1 class="text-lg font-semibold uppercase">No hay detalles</h1>
     </div>
+{:else if detallesPoliza.length == 0}
+    <div class="flex justify-center items-center my-6">
+        <h1 class="text-lg font-semibold uppercase">No hay detalles</h1>
+    </div>
 {:else}
     <Table.Root>
         <Table.Header>
