@@ -13,6 +13,9 @@
 
     let abrirFormulario = false;
     const agregarDetalle = (nuevo_detalle: DetallePoliza) => {
+        if (!detallesPoliza) {
+            detallesPoliza = [];
+        }
         detallesPoliza = [...detallesPoliza, nuevo_detalle];
     };
 </script>
