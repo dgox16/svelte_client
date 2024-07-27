@@ -1,5 +1,6 @@
 <script lang="ts">
     import MainTitle from "$lib/components/layout/MainTitle.svelte";
+    import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
     import * as Card from "$lib/components/ui/card/index.js";
     import { format } from "date-fns";
     import type { Poliza } from "$lib/modelos/polizas/polizaBasica";
@@ -16,11 +17,22 @@
         titulo="Visualización de poliza"
         subtitulo="Puedes revisar todos los detalle de la poliza"
     />
-    <Button
-        variant="default"
-        on:click={() => generarPdf(poliza, polizaEgreso, detallesPoliza)}
-        >Descargar en PDF</Button
-    >
+    <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild let:builder>
+            <Button builders={[builder]} variant="default"
+                >Descargar reportes</Button
+            >
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content class="w-40">
+            <DropdownMenu.Group>
+                <DropdownMenu.Item
+                    on:click={() => {
+                        generarPdf(poliza, polizaEgreso, detallesPoliza);
+                    }}>En PDF</DropdownMenu.Item
+                >
+            </DropdownMenu.Group>
+        </DropdownMenu.Content>
+    </DropdownMenu.Root>
 </div>
 <div class="grid grid-cols-3 gap-4 mt-5">
     <span><span class="font-bold">ID: </span>{poliza.id_poliza}</span>
