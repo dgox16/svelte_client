@@ -6,6 +6,7 @@
     import type { Poliza } from "$lib/modelos/polizas/polizaBasica";
     import Button from "$lib/components/ui/button/button.svelte";
     import { generarPdf } from "$lib/funciones/generarReportes/reportePolizaPdf";
+    import { generarExcel } from "$lib/funciones/generarReportes/reportePolizaExcel";
     import type { DetallePoliza } from "$lib/modelos/polizas/detallePoliza";
     export let poliza: Poliza;
     export let polizaEgreso;
@@ -29,6 +30,11 @@
                     on:click={() => {
                         generarPdf(poliza, polizaEgreso, detallesPoliza);
                     }}>En PDF</DropdownMenu.Item
+                >
+                <DropdownMenu.Item
+                    on:click={() => {
+                        generarExcel(poliza, polizaEgreso, detallesPoliza);
+                    }}>En Excel</DropdownMenu.Item
                 >
             </DropdownMenu.Group>
         </DropdownMenu.Content>
