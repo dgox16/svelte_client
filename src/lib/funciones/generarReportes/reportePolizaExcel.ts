@@ -9,7 +9,6 @@ export const generarExcel = (
 	polizaEgreso,
 	detallesPoliza: Array<DetallePoliza>,
 ) => {
-	// Datos del encabezado
 	const encabezadoDatos = {
 		titulo: "Reporte Poliza",
 		general: poliza.id_poliza,
@@ -20,10 +19,8 @@ export const generarExcel = (
 		concepto: poliza.concepto,
 	};
 
-	// Crea una nueva hoja de trabajo
 	const ws = XLSX.utils.json_to_sheet([]);
 
-	// Añadir el encabezado a la hoja de trabajo
 	const headerRows = [
 		[encabezadoDatos.titulo, "", "", "", ""],
 		["", "", "", "", ""],
@@ -57,26 +54,23 @@ export const generarExcel = (
 		abono: fila.abono,
 	}));
 
-	// Añadir los datos de la tabla a la hoja de trabajo
 	XLSX.utils.sheet_add_json(ws, datos, {
 		origin: "A10",
 		skipHeader: true,
 	});
 	const anchoColumna = [
-		{ wch: 20 }, // Columna A (ID)
-		{ wch: 30 }, // Columna D (Precio)
-		{ wch: 10 }, // Columna B (Nombre)
-		{ wch: 20 }, // Columna C (Cantidad)
-		{ wch: 20 }, // Columna D (Precio)
+		{ wch: 20 },
+		{ wch: 30 },
+		{ wch: 10 },
+		{ wch: 20 },
+		{ wch: 20 },
 	];
 
 	ws["!cols"] = anchoColumna;
 
-	// Crear un nuevo libro de trabajo y añadir la hoja de trabajo
 	const wb = XLSX.utils.book_new();
 	XLSX.utils.book_append_sheet(wb, ws, "Reporte");
 
-	// Exportar el archivo Excel
 	const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
 	fileSaver.saveAs(
 		new Blob([wbout], { type: "application/octet-stream" }),
