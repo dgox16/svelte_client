@@ -69,12 +69,19 @@
                     locale="es"
                     bind:fechaMostrar
                     initialFocus
-                    onValueChange={(v) => {
+                    onValueChange={async (v) => {
                         if (v) {
                             fechaMostrar = v;
                             fechaApi = v
                                 .toDate(getLocalTimeZone())
                                 .toLocaleDateString("sv-SE");
+
+                            const respuesta = await fetch(
+                                `http://localhost:8000/api/poliza/balanza_comprobacion?fecha=${fechaApi}`,
+                            );
+                            const resultado = await respuesta.json();
+                            cuentas = resultado.datos.balanza;
+                            total = resultado.datos.total;
                         } else {
                             fechaMostrar = undefined;
                         }
@@ -107,4 +114,7 @@
             </Table.Body>
         </Table.Root>
     </Card.Content>
+    <Card.Footer>
+        <div class="font-bold">Total: ${total}</div>
+    </Card.Footer>
 </Card.Root>
