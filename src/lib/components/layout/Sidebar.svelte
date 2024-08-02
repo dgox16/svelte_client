@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ListBullet, PlusCircled } from "svelte-radix";
+    import { FileText, ListBullet, PlusCircled } from "svelte-radix";
     import Button from "../ui/button/button.svelte";
     import { ScrollArea } from "../ui/scroll-area";
 </script>
@@ -29,6 +29,21 @@
                     >
                         <ListBullet class="size-4 mr-2" />
                         Ver polizas
+                    </Button>
+                </div>
+            </div>
+            <div class=" py-2">
+                <h2 class="mb-2 text-lg font-semibold tracking-tight">
+                    Reportes
+                </h2>
+                <div class="space-y-1">
+                    <Button
+                        variant="ghost"
+                        class="w-full justify-start"
+                        href="/reportes/balanza-comprobacion"
+                    >
+                        <FileText class="size-4 mr-2" />
+                        Balanza de comprobación
                     </Button>
                 </div>
             </div>
