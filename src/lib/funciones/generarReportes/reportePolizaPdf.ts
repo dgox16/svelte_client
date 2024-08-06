@@ -5,7 +5,7 @@ import type { Poliza } from "$lib/modelos/polizas/polizaBasica";
 import autoTable from "jspdf-autotable";
 import { format } from "date-fns";
 
-export const generarPdf = (
+export const generarPolizaPdf = (
 	poliza: Poliza,
 	polizaEgreso,
 	detallesPoliza: Array<DetallePoliza>,

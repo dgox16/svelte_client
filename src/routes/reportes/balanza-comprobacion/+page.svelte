@@ -7,6 +7,7 @@
     import { Calendar } from "$lib/components/ui/calendar/index.js";
     import * as Table from "$lib/components/ui/table/index.js";
     import * as Popover from "$lib/components/ui/popover/index.js";
+    import { generarBalanzaComprobacionPdf } from "$lib/funciones/generarReportes/reporteBalanzaComprobacionPdf";
     import {
         DateFormatter,
         type DateValue,
@@ -40,7 +41,11 @@
         </DropdownMenu.Trigger>
         <DropdownMenu.Content class="w-40">
             <DropdownMenu.Group>
-                <DropdownMenu.Item>En PDF</DropdownMenu.Item>
+                <DropdownMenu.Item
+                    on:click={() => {
+                        generarBalanzaComprobacionPdf(cuentas, total);
+                    }}>En PDF</DropdownMenu.Item
+                >
             </DropdownMenu.Group>
         </DropdownMenu.Content>
     </DropdownMenu.Root>

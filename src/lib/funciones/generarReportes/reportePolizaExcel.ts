@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import fileSaver from "file-saver";
 import * as XLSX from "xlsx";
 
-export const generarExcel = (
+export const generarPolizaExcel = (
 	poliza: Poliza,
 	polizaEgreso,
 	detallesPoliza: Array<DetallePoliza>,
