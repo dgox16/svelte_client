@@ -3,22 +3,35 @@ import jsPDF from "jspdf";
 import { generarEncabezado } from "./reporteLayoutPdf";
 import autoTable from "jspdf-autotable";
 
-export const generarBalanzaComprobacionPdf = (cuentas, total: number) => {
+export const generarBalanzaComprobacionPdf = (
+	cuentas,
+	total: number,
+	fechaInicial: String,
+	fechaFinal: String,
+) => {
 	const doc = new jsPDF();
 
 	const generarTablaDetallesPoliza = (doc: jsPDF, cuentas) => {
 		const columnas = [
 			{ encabezado: "ID", key: "id" },
-			{ encabezado: "Deudora Anterior", key: "total" },
-			{ encabezado: "Abono", key: "total_abono" },
-			{ encabezado: "Cargo", key: "total_cargo" },
+			{ encabezado: "Nombre", key: "nombre" },
+			{ encabezado: "Deudora Anterior", key: "deudora_anterior" },
+			{ encabezado: "Acreedora Anterior", key: "acreedora_anterior" },
+			{ encabezado: "Abono", key: "abono" },
+			{ encabezado: "Cargo", key: "cargo" },
+			{ encabezado: "Saldo Deudor", key: "saldo_deudor" },
+			{ encabezado: "Saldo Acreedor", key: "saldo_acreedor" },
 		];
 
 		const datos = cuentas.map((fila) => ({
 			id: fila.cuenta,
-			total: fila.total,
-			total_abono: fila.total_abono,
-			total_cargo: fila.total_cargo,
+			nombre: fila.nombre,
+			deudora_anterior: fila.deudora_anterior,
+			acreedora_anterior: fila.acreedora_anterior,
+			abono: fila.abono,
+			cargo: fila.cargo,
+			saldo_deudor: fila.saldo_deudor,
+			saldo_acreedor: fila.saldo_acreedor,
 		}));
 		autoTable(doc, {
 			head: [columnas.map((columna) => columna.encabezado)],
@@ -41,6 +54,7 @@ export const generarBalanzaComprobacionPdf = (cuentas, total: number) => {
 	doc.setFont("Times-Roman", "bold");
 	doc.setFontSize(10);
 	doc.text(`Total: $${total}`, 14, 34);
+	doc.text(`${fechaInicial} - ${fechaFinal}`, 160, 34);
 	if (cuentas) {
 		generarTablaDetallesPoliza(doc, cuentas);
 	}

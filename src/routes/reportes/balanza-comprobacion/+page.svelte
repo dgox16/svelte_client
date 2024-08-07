@@ -46,7 +46,12 @@
             <DropdownMenu.Group>
                 <DropdownMenu.Item
                     on:click={() => {
-                        generarBalanzaComprobacionPdf(cuentas, total);
+                        generarBalanzaComprobacionPdf(
+                            cuentas,
+                            total,
+                            fechaApiInicial,
+                            fechaApiFinal,
+                        );
                     }}>En PDF</DropdownMenu.Item
                 >
             </DropdownMenu.Group>
